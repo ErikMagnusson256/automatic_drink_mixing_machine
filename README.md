@@ -1,8 +1,8 @@
 # automatic_drink_mixing_machine
 Repository for an open source drink/cocktail mixing machine. Designed to be mainly 3D printed.
 
-![image](images/early_render.png)
-
+<!-- ![image](images/early_render.png) -->
+<img src="images/drawings/drawing.png" > 
 Keywords: Cocktail, Mixing, Machine, Automatic, 3D printed, Drink, Pouring, Arduino, Pump, Liqour, spirits, Dispenser
 
 
