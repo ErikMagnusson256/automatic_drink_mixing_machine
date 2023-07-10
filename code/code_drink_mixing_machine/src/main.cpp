@@ -45,9 +45,15 @@ void loop(void);
 
 
 void hello_world_lcd();
+void lcd_background();
+void center_text_box(int center_x, int center_y, String text, int16_t text_colour, int16_t outline_colour, int16_t infill_colour, int* width, int* height);
 
 void testing_splash_screen(int nr_poured_drinks, int cl_poured);
 void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4);
+
+void fill_glass_animation(int duration, int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4);
+
+int confirm_glass_size_screen();
 
 uint16_t g_identifier;
 
@@ -94,7 +100,9 @@ void setup(void) {
 
     //hello_world_lcd();
     testing_splash_screen(69, 420);
-}
+    delay(5000);
+    confirm_glass_size_screen();
+    }
 
 
 
@@ -135,10 +143,9 @@ void hello_world_lcd()
     tft.fillRect(155, 355, 40, 40, MAGENTA);
 }
 
-
-void testing_splash_screen(int nr_poured_drinks, int cl_poured)
+void lcd_background()
 {
-  tft.fillScreen(WHITE);
+    tft.fillScreen(WHITE);
 
   //String titleText = "Groggbot 3!";
   //int x1 = 0, y1=0, w=0, h=0;
@@ -149,10 +156,22 @@ void testing_splash_screen(int nr_poured_drinks, int cl_poured)
   tft.fillRoundRect(25, 10, SCREEN_WIDTH - 2*25, 50, 5, BLACK);
   tft.setCursor(65, 23);
   tft.setTextSize(3);
+  tft.setTextColor(WHITE);
   tft.print("Groggbot 3!!");
+  
+ //int w,h;
+ //tft.setTextSize(3);
+ //center_text_box(SCREEN_WIDTH/2, 40, "Groggbot 3!", WHITE, GREY, BLACK, &w, &h);
+ 
+}
 
+void testing_splash_screen(int nr_poured_drinks, int cl_poured)
+{
+  
+    lcd_background();
 
   draw_filled_glass(37, 85, SCREEN_WIDTH - 74, 275, 25, 3, 3, 3, 7);
+  fill_glass_animation(100, 7, 85, SCREEN_WIDTH - 74, 275, 25, 3, 3, 3, 7);
 
   tft.setCursor(20, 400);
   tft.setTextSize(2);
@@ -162,29 +181,99 @@ void testing_splash_screen(int nr_poured_drinks, int cl_poured)
   tft.setTextSize(2);
   tft.println("That is a total of " + String(cl_poured) + " cl poured!");
  
-
-
 }
 
 
 void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume_cl, float proc_1, float proc_2, float proc_3, float proc_4)
 {
   
-  int center_x = (x0 + width)/2;
+  
 
   tft.drawLine(x0, y0, x0+width, y0, BLACK);
   tft.drawLine(x0, y0, x0 + width/5, y0 + height, BLACK);
   tft.drawLine(x0 + width, y0, x0 + (width/5)*4, y0 + height, BLACK);
   tft.drawLine(x0 + width/5, y0 + height,  x0 + (width/5)*4, y0 + height, BLACK);
 
-  tft.fillTriangle()
+  
+}
+
+void fill_glass_animation(int duration, int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4)
+{
+    int center_x = (x0 + width)/2;
+    float h0 = y0 + height, w0 = width/5;
+    float delta = atan(w0 / (5*h0));
+    Serial.println("delta: " + String(delta));
+
+    float center_width = (width/5)*3; 
+    float tan_delta = tan(delta);
+    Serial.println("tan delta:" + String(tan_delta));
+    for(int i = 0; i < height; i++)
+    {
+        float layerwidth = 2*(tan_delta * i) + center_width;
+        Serial.println("Layerwidth:" + String(layerwidth));
+
+        tft.drawFastHLine(center_x - (layerwidth)/2, y0 + height - i, layerwidth, RED);
+        delay(10);
+    }
+}
+
+int confirm_glass_size_screen()
+{
+
+    lcd_background();
+
+    tft.setTextColor(BLACK);
+    tft.setCursor(40, 100);
+    tft.setTextSize(3);
+    tft.println("Please confirm \n  glass size!");
+
+    tft.drawRoundRect(120, 250, 60, 60, 7, BLACK);
+    tft.setCursor(120, 250);
+    tft.setTextSize(2);
+    int temp = 25;
+    tft.println(String(temp) + " cl");
+
+    
+    
+
+    return 0;
+}
+
+void center_text_box(int center_x, int center_y, String text, int16_t text_colour, int16_t outline_colour, int16_t infill_colour, int* width, int* height)
+{
+    int cursor_x = 0, cursor_y = 0;
+
+    int16_t x0, y0;
+    uint16_t w, h;
+    //String tempString = "xxxx cl";
+    tft.getTextBounds(text.c_str(), cursor_x, cursor_y, &x0, &y0, &w, &h);
+    
+    float outline_scale = 1.25;
+    int radius = 5;
+    tft.fillRoundRect((center_x - w/2), (center_y - h/2), w*outline_scale, h*outline_scale, radius, outline_colour); //background box
+    tft.fillRoundRect((center_x - w/2), (center_y - h/2), w, h, radius, infill_colour); //foreground box
+    tft.setCursor(center_x - w/2, center_y - h/2);
+    tft.setTextColor(text_colour);
+    tft.println(text);
+
+    //Serial.println("x0:" + String(x0) + " y0:" + String(y0) + " w:" + String(w) + " h:" + String(h));
 }
 
 void loop(void) {
-    delay(1000);
 
+    /*for (int t_delay = 50 ; t_delay < 2000 ; t_delay += 50)
+    {
+    //int t_delay = 100;
+    tft.fillScreen(BLACK);
+    tft.fillRect(100, 275, 200, 40, CYAN);
+    tft.setCursor(110, 280);
+    tft.setTextSize(1);
+    tft.println("Test screen refresh rate " + String(t_delay));
+   
     
-
-    Serial.println("loop success");
+    delay(t_delay);
+    }
+    */
+    //Serial.println("loop success");
 }
 
