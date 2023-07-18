@@ -20,7 +20,7 @@ MCUFRIEND_kbv tft;
 //#include <Adafruit_TFTLCD.h>
 //Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
-
+#include "PumpControl.h"
 
 // Assign human-readable names to some common 16-bit color values:
 #define	BLACK   0x0000
@@ -55,6 +55,8 @@ void fill_glass_animation(int duration, int x0, int y0, int width, int height, f
 
 int confirm_glass_size_screen();
 
+bool DrawRandomizerScreen();
+
 uint16_t g_identifier;
 
 extern const uint8_t hanzi[];
@@ -85,6 +87,8 @@ void showhanzi(unsigned int x, unsigned int y, unsigned char index)
     }
 }
 
+PumpControl testPumpCtrl;
+
 void setup(void) {
     Serial.begin(9600);
     uint32_t when = millis();
@@ -97,11 +101,32 @@ void setup(void) {
     Serial.println(ID, HEX);
     tft.begin(ID);
 
+    
 
     //hello_world_lcd();
-    testing_splash_screen(69, 420);
-    delay(5000);
-    confirm_glass_size_screen();
+    //testing_splash_screen(69, 420);
+    //delay(5000);
+    //confirm_glass_size_screen();
+
+    //delay(1000);
+    lcd_background();
+    testPumpCtrl.Init(SCREEN_WIDTH/12, SCREEN_HEIGHT/6, SCREEN_WIDTH*10/12, SCREEN_HEIGHT*4/8 );
+    testPumpCtrl.SetPumpHighlight(3);
+    testPumpCtrl.Render(&tft);
+    delay(1000);
+    testPumpCtrl.SetPumpHighlight(2);
+    testPumpCtrl.SetPumpVolume(3, 10.23, 15);
+    testPumpCtrl.Render(&tft);
+    delay(500);
+    testPumpCtrl.SetPumpHighlight(1);
+    testPumpCtrl.SetPumpVolume(1, 69, 100);
+    testPumpCtrl.Render(&tft);
+
+    delay(500);
+    lcd_background();
+
+    // Draw wheel
+
     }
 
 
@@ -170,8 +195,10 @@ void testing_splash_screen(int nr_poured_drinks, int cl_poured)
   
     lcd_background();
 
-  draw_filled_glass(37, 85, SCREEN_WIDTH - 74, 275, 25, 3, 3, 3, 7);
-  fill_glass_animation(100, 7, 85, SCREEN_WIDTH - 74, 275, 25, 3, 3, 3, 7);
+  tft.setCursor(35, 80);
+  tft.setTextSize(2);
+  tft.setTextColor(BLACK);
+  tft.println("Initializing...");
 
   tft.setCursor(20, 400);
   tft.setTextSize(2);
@@ -180,7 +207,11 @@ void testing_splash_screen(int nr_poured_drinks, int cl_poured)
   tft.setCursor(20, 430);
   tft.setTextSize(2);
   tft.println("That is a total of " + String(cl_poured) + " cl poured!");
- 
+
+
+  draw_filled_glass(37, 100, SCREEN_WIDTH - 74, 275, 25, 3, 3, 3, 3);
+  fill_glass_animation(500, 37, 100, SCREEN_WIDTH - 74, 275, 13, 3, 3, 3, 3);
+
 }
 
 
@@ -199,21 +230,37 @@ void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume
 
 void fill_glass_animation(int duration, int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4)
 {
+    int delta_t = height/duration;
     int center_x = (x0 + width)/2;
     float h0 = y0 + height, w0 = width/5;
     float delta = atan(w0 / (5*h0));
     Serial.println("delta: " + String(delta));
+    //delta = 5;
 
     float center_width = (width/5)*3; 
     float tan_delta = tan(delta);
+    tan_delta = 0.18; //???
     Serial.println("tan delta:" + String(tan_delta));
     for(int i = 0; i < height; i++)
     {
         float layerwidth = 2*(tan_delta * i) + center_width;
         Serial.println("Layerwidth:" + String(layerwidth));
 
-        tft.drawFastHLine(center_x - (layerwidth)/2, y0 + height - i, layerwidth, RED);
-        delay(10);
+        uint16_t glass_fill_colour = RED;
+        if ((float)i / (float)height > 0 / glass_volume_cl)
+            glass_fill_colour = YELLOW;
+        if ((float)i / (float)height > (amount_1) / glass_volume_cl)
+            glass_fill_colour = BLUE;
+        if ((float)i / (float)height > (amount_1 + amount_2) / glass_volume_cl)
+            glass_fill_colour = GREEN;
+        if ((float)i / (float)height > (amount_1 + amount_2 + amount_3) / glass_volume_cl)
+            glass_fill_colour = MAGENTA;
+        if ((float)i / (float)height > (amount_1 + amount_2 + amount_3+amount_4) / glass_volume_cl)
+            return;
+       
+
+        tft.drawFastHLine(SCREEN_WIDTH/2 - (layerwidth)/2, y0 + height - i, layerwidth, glass_fill_colour);
+        delay(delta_t);
     }
 }
 
@@ -237,6 +284,20 @@ int confirm_glass_size_screen()
     
 
     return 0;
+}
+
+bool DrawRandomizerScreen()
+{
+
+    int circle_center_x = SCREEN_WIDTH/2,
+        circle_center_y = SCREEN_HEIGHT/2,
+        circle_radius = 50;
+
+    for(float i = 0 ; i < 2*PI; i += PI/180)
+    {
+        tft.drawLine(circle_center_x, circle_center_y, circle_radius*cos(i), circle_center_y*sin(i), RED);
+    }
+
 }
 
 void center_text_box(int center_x, int center_y, String text, int16_t text_colour, int16_t outline_colour, int16_t infill_colour, int* width, int* height)
