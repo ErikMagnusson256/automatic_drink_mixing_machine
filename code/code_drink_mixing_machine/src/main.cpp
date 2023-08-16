@@ -21,6 +21,7 @@ MCUFRIEND_kbv tft;
 //Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 #include "PumpControl.h"
+#include "InputVector.h"
 
 // Assign human-readable names to some common 16-bit color values:
 #define	BLACK   0x0000
@@ -39,6 +40,8 @@ MCUFRIEND_kbv tft;
 #ifndef min
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #endif
+
+
 
 void setup(void);
 void loop(void);
@@ -126,6 +129,14 @@ void setup(void) {
     lcd_background();
 
     // Draw wheel
+
+
+    // Initialise button
+
+    pinMode(14, INPUT_PULLUP); 
+    pinMode(15, INPUT_PULLUP);
+    pinMode(16, INPUT_PULLUP);
+    
 
     }
 
@@ -322,19 +333,32 @@ void center_text_box(int center_x, int center_y, String text, int16_t text_colou
 
 void loop(void) {
 
-    /*for (int t_delay = 50 ; t_delay < 2000 ; t_delay += 50)
-    {
-    //int t_delay = 100;
-    tft.fillScreen(BLACK);
-    tft.fillRect(100, 275, 200, 40, CYAN);
-    tft.setCursor(110, 280);
-    tft.setTextSize(1);
-    tft.println("Test screen refresh rate " + String(t_delay));
-   
-    
-    delay(t_delay);
-    }
-    */
-    //Serial.println("loop success");
+    int j_x = 1023 - analogRead(A8);
+    int j_y = 1023 - analogRead(A9);
+    int joystick_press = digitalRead(14);
+    int button_ok = digitalRead(15);
+    int button_return = digitalRead(16);
+
+    InputVector testInput;
+
+    testInput.joystick_x = j_x;
+    testInput.joystick_y = j_y;
+
+    if (joystick_press == 0)
+        testInput.button_confirm = true;
+    else
+        testInput.button_confirm = false;
+
+
+    Serial.println("Jx=" + String(j_x) + ",jy=" + String(j_y)+",joystick_press=" + String(joystick_press) + ",button_ok=" + String(button_ok) + ",button_return=" + String(button_return));
+    delay(100);
+
+    int x = ((float)j_x / 1023.0)*SCREEN_WIDTH;
+    int y = ((float)j_y / 1023.0)*SCREEN_HEIGHT;
+
+    //tft.drawPixel(x, y, RED);
+    tft.drawCircle(x,y,5,RED);
+
+    Serial.println("x,y=" + String(x) + "," + String(y));
 }
 
