@@ -14,10 +14,10 @@ Code is run on an Arduino Mega 2560
 
 /* Include Standard Imported Libraries */
 #include <Arduino.h>
-#include <SPI.h>          // f.k. for Arduino-1.5.2
-#include "Adafruit_GFX.h"// Hardware-specific library
+#include <SPI.h>          
+#include "Adafruit_GFX.h"
 #include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+
 
 /* Include Custom Libraries and headers created for the drink machine */
 #include "PumpControl.h"
@@ -28,18 +28,12 @@ MCUFRIEND_kbv tft;
 #include "DrinkMachine.h"
 
 DrinkMachine drinkmachine;
+MCUFRIEND_kbv tft;
 
 void setup();
 void loop();
 
-
-void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4);
-
-void fill_glass_animation(int duration, int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4);
-
-
-
-PumpControl testPumpCtrl;
+//PumpControl testPumpCtrl;
 
 void setup() {
     Serial.begin(9600);
@@ -79,10 +73,6 @@ void setup() {
     pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP); 
     pinMode(BUTTON_OK_PIN, INPUT_PULLUP);
     pinMode(BUTTON_RETURN_PIN, INPUT_PULLUP);
-        
-    //testing_splash_screen(50,50);
-
-    //delay(1000);
 
     /*
     Incase EEPROM needs to be reset
@@ -96,58 +86,6 @@ void setup() {
     
     }
 
-
-
-void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume_cl, float proc_1, float proc_2, float proc_3, float proc_4)
-{
-  tft.drawLine(x0, y0, x0+width, y0, BLACK);
-  tft.drawLine(x0, y0, x0 + width/5, y0 + height, BLACK);
-  tft.drawLine(x0 + width, y0, x0 + (width/5)*4, y0 + height, BLACK);
-  tft.drawLine(x0 + width/5, y0 + height,  x0 + (width/5)*4, y0 + height, BLACK);
-
-  
-}
-
-void fill_glass_animation(int duration, int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4)
-{
-    int delta_t = height/duration;
-    int center_x = (x0 + width)/2;
-    float h0 = y0 + height, w0 = width/5;
-    float delta = atan(w0 / (5*h0));
-    Serial.println("delta: " + String(delta));
-    //delta = 5;
-
-    float center_width = (width/5)*3; 
-    float tan_delta = tan(delta);
-    tan_delta = 0.18; //???
-    Serial.println("tan delta:" + String(tan_delta));
-    for(int i = 0; i < height; i++)
-    {
-        float layerwidth = 2*(tan_delta * i) + center_width;
-        Serial.println("Layerwidth:" + String(layerwidth));
-
-        uint16_t glass_fill_colour = RED;
-        if ((float)i / (float)height > 0 / glass_volume_cl)
-            glass_fill_colour = YELLOW;
-        if ((float)i / (float)height > (amount_1) / glass_volume_cl)
-            glass_fill_colour = BLUE;
-        if ((float)i / (float)height > (amount_1 + amount_2) / glass_volume_cl)
-            glass_fill_colour = GREEN;
-        if ((float)i / (float)height > (amount_1 + amount_2 + amount_3) / glass_volume_cl)
-            glass_fill_colour = MAGENTA;
-        if ((float)i / (float)height > (amount_1 + amount_2 + amount_3+amount_4) / glass_volume_cl)
-            return;
-       
-
-        tft.drawFastHLine(SCREEN_WIDTH/2 - (layerwidth)/2, y0 + height - i, layerwidth, glass_fill_colour);
-        delay(delta_t);
-    }
-}
-
-
-
-
-
 void loop() {
 
     /* Read user input and save states to "InputVector" storage object */
@@ -157,7 +95,6 @@ void loop() {
     int button_ok = digitalRead(BUTTON_OK_PIN);
     int button_return = digitalRead(BUTTON_RETURN_PIN);
 
-    
     InputVector user_input;
 
     user_input.joystick_x = j_x;
@@ -176,11 +113,9 @@ void loop() {
     t_old = t_now;
 
     /* Render Drink Machine State */
-    // @todo
     drinkmachine.Render(&tft, dt);
 
     /* Handle Drink Machine Logic */
-    // @todo
     drinkmachine.Update(user_input, dt);
 
     delay(100);

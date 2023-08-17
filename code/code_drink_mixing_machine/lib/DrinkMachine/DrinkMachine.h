@@ -4,6 +4,8 @@
 /* Include Custom Headers */
 #include "InputVector.h"
 #include "StartupScreen.h"
+#include "MainScreen.h"
+#include "DM_Graphics_Config.h"
 
 /* Include Standard Headers */
 #include "Arduino.h"
@@ -25,6 +27,7 @@ bool Update(const InputVector &user_input, uint32_t  dt_ms);
 private:
 
 StartupScreen startup_screen;
+MainScreen main_screen;
 
 };
 

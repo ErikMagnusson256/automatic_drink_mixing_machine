@@ -3,7 +3,8 @@
 
 DrinkMachine::DrinkMachine() // Constructor
 {
-
+    
+    
 }
 
 bool DrinkMachine::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms) // Renders state of DrinkMachien
@@ -14,11 +15,17 @@ bool DrinkMachine::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms) // Renders stat
     }
     else
     {
-        screen->fillScreen(WHITE);
-        screen->setCursor(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-        screen->setTextColor(BLACK);
-        screen->setTextSize(2);
-        screen->println("Successfully exited startup screen, glas size is=" + String(startup_screen.GetGlasSize()));
+        // Clear screen and set to a known background once
+        static bool cleared_screen = false;
+        if(!cleared_screen)
+        {
+            screen->fillScreen(WHITE);
+            lcd_background(screen);
+            
+            cleared_screen = true;
+        }
+        
+        main_screen.Render(screen, dt_ms);
 
     }
 
@@ -32,6 +39,6 @@ bool DrinkMachine::Update(const InputVector &user_input, uint32_t  dt_ms)
         startup_screen.Update(user_input, dt_ms);
     }
     else {
-        Serial1.println("Great success!");
+        main_screen.Update(user_input, dt_ms);
     }
 }

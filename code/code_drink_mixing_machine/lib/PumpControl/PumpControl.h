@@ -29,7 +29,7 @@ bool SetPumpHighlight(int pump_nr);
 
 bool PourDrink();
 
-bool Render(MCUFRIEND_kbv *screen);
+bool Render(MCUFRIEND_kbv *screen, uint32_t dt_ms);
 
 /*
 Private variables

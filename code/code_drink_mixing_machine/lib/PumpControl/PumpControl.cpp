@@ -126,8 +126,11 @@ bool PumpControl::PourDrink()
     
 }
 
-bool PumpControl::Render(MCUFRIEND_kbv *screen)
+bool PumpControl::Render(MCUFRIEND_kbv *screen,  uint32_t dt_ms)
 {   
+
+    
+
     // Draw outline rounded rectangle
     screen->drawRoundRect(this->x0_, this->y0_, this->width_, this->height_, 10 ,0x0000 );
 
