@@ -12,41 +12,31 @@ Code is run on an Arduino Mega 2560
 
 */
 
-#include <Arduino.h>
-
-#define LCD_CS A3 // Chip Select goes to Analog 3
-#define LCD_CD A2 // Command/Data goes to Analog 2
-#define LCD_WR A1 // LCD Write goes to Analog 1
-#define LCD_RD A0 // LCD Read goes to Analog 0
-#define LCD_RESET A4 // Can alternately just connect to Arduino's reset pin
-
 /* Include Standard Imported Libraries */
-
+#include <Arduino.h>
 #include <SPI.h>          // f.k. for Arduino-1.5.2
 #include "Adafruit_GFX.h"// Hardware-specific library
 #include <MCUFRIEND_kbv.h>
 MCUFRIEND_kbv tft;
 
-/* Include Custom Libraries created for the drink machine */
+/* Include Custom Libraries and headers created for the drink machine */
 #include "PumpControl.h"
 #include "InputVector.h"
-#include "DM_Graphics_config.h"
+#include "DM_Graphics_Config.h"
+#include "DM_General_Config.h"
 
+#include "DrinkMachine.h"
+
+DrinkMachine drinkmachine;
 
 void setup();
 void loop();
 
 
-
-
-
-
-void testing_splash_screen(int nr_poured_drinks, int cl_poured);
 void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4);
 
 void fill_glass_animation(int duration, int x0, int y0, int width, int height, float glass_volume_cl, float amount_1, float amount_2, float amount_3, float amount_4);
 
-int confirm_glass_size_screen();
 
 
 PumpControl testPumpCtrl;
@@ -64,7 +54,7 @@ void setup() {
     tft.begin(ID);
 
     
-
+    /*
     //delay(1000);
     lcd_background(&tft);
     testPumpCtrl.Init(SCREEN_WIDTH/12, SCREEN_HEIGHT/6, SCREEN_WIDTH*10/12, SCREEN_HEIGHT*4/8 );
@@ -82,47 +72,34 @@ void setup() {
     delay(500);
     lcd_background(&tft);
 
-
+    */
 
     /* Arduino Mega PIN configuration */
 
-    pinMode(14, INPUT_PULLUP); 
-    pinMode(15, INPUT_PULLUP);
-    pinMode(16, INPUT_PULLUP);
-    
+    pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP); 
+    pinMode(BUTTON_OK_PIN, INPUT_PULLUP);
+    pinMode(BUTTON_RETURN_PIN, INPUT_PULLUP);
+        
+    //testing_splash_screen(50,50);
 
+    //delay(1000);
+
+    /*
+    Incase EEPROM needs to be reset
+
+    int reset_nr_drinks = 0;
+    float reset_amount_poured = 0;
+    EEPROM.put(EEPROM_ADR_NR_DRINKS, reset_nr_drinks);
+    EEPROM.put(EEPROM_ADR_NR_CL, reset_amount_poured);
+
+    */
+    
     }
 
-void testing_splash_screen(int nr_poured_drinks, int cl_poured)
-{
-  
-    lcd_background(&tft);
-
-  tft.setCursor(35, 80);
-  tft.setTextSize(2);
-  tft.setTextColor(BLACK);
-  tft.println("Initializing...");
-
-  tft.setCursor(20, 400);
-  tft.setTextSize(2);
-  tft.setTextColor(BLACK);
-  tft.println("Poured " + String(nr_poured_drinks) + " drinks so far!");
-  tft.setCursor(20, 430);
-  tft.setTextSize(2);
-  tft.println("That is a total of " + String(cl_poured) + " cl poured!");
-
-
-  draw_filled_glass(37, 100, SCREEN_WIDTH - 74, 275, 25, 3, 3, 3, 3);
-  fill_glass_animation(500, 37, 100, SCREEN_WIDTH - 74, 275, 13, 3, 3, 3, 3);
-
-}
 
 
 void draw_filled_glass(int x0, int y0, int width, int height, float glass_volume_cl, float proc_1, float proc_2, float proc_3, float proc_4)
 {
-  
-  
-
   tft.drawLine(x0, y0, x0+width, y0, BLACK);
   tft.drawLine(x0, y0, x0 + width/5, y0 + height, BLACK);
   tft.drawLine(x0 + width, y0, x0 + (width/5)*4, y0 + height, BLACK);
@@ -167,37 +144,18 @@ void fill_glass_animation(int duration, int x0, int y0, int width, int height, f
     }
 }
 
-int confirm_glass_size_screen()
-{
 
-    lcd_background(&tft);
-
-    tft.setTextColor(BLACK);
-    tft.setCursor(40, 100);
-    tft.setTextSize(3);
-    tft.println("Please confirm \n  glass size!");
-
-    tft.drawRoundRect(120, 250, 60, 60, 7, BLACK);
-    tft.setCursor(120, 250);
-    tft.setTextSize(2);
-    int temp = 25;
-    tft.println(String(temp) + " cl");
-
-
-
-    return 0;
-}
 
 
 
 void loop() {
 
     /* Read user input and save states to "InputVector" storage object */
-    int j_x = 1023 - analogRead(A8);
-    int j_y = 1023 - analogRead(A9);
-    int joystick_press = digitalRead(14);
-    int button_ok = digitalRead(15);
-    int button_return = digitalRead(16);
+    int j_x = 1023 - analogRead(JOYSTICK_X_PIN);
+    int j_y = 1023 - analogRead(JOYSTICK_Y_PIN);
+    int joystick_press = digitalRead(JOYSTICK_BUTTON_PIN);
+    int button_ok = digitalRead(BUTTON_OK_PIN);
+    int button_return = digitalRead(BUTTON_RETURN_PIN);
 
     
     InputVector user_input;
@@ -212,15 +170,20 @@ void loop() {
 
 
     /* Calculate the programming loop execution time to get a delta_t between iterations */
-
-    static uint32_t  t_old = 0;
-
-
-    /* Handle Drink Machine Logic */
-    // @todo
+    static uint32_t t_old = 0;
+    uint32_t t_now = millis();
+    uint32_t dt = t_now - t_old;
+    t_old = t_now;
 
     /* Render Drink Machine State */
     // @todo
+    drinkmachine.Render(&tft, dt);
+
+    /* Handle Drink Machine Logic */
+    // @todo
+    drinkmachine.Update(user_input, dt);
+
+    delay(100);
 
 }
 

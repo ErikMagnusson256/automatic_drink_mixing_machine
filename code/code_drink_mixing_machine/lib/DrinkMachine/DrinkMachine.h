@@ -3,6 +3,7 @@
 
 /* Include Custom Headers */
 #include "InputVector.h"
+#include "StartupScreen.h"
 
 /* Include Standard Headers */
 #include "Arduino.h"
@@ -15,10 +16,15 @@ class DrinkMachine {
 /* Public Functions */
 public:
 
-DrinkMachine(MCUFRIEND_kbv *screen); // Constructor
+DrinkMachine(); // Constructor
 
-bool Render(MCUFRIEND_kbv *screen, int dt_ms); // Renders state of DrinkMachien
-bool Update(const InputVector &user_input, int dt_ms);
+bool Render(MCUFRIEND_kbv *screen, uint32_t dt_ms); // Renders state of DrinkMachien
+bool Update(const InputVector &user_input, uint32_t  dt_ms);
+
+/* Private variables and objects */
+private:
+
+StartupScreen startup_screen;
 
 };
 
