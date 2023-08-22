@@ -9,6 +9,7 @@ Pump::Pump(int x0, int y0, int pump_pin_nr, int pump_nr)
 Pump::Pump()
 {
     Init(0, 0, -1, -1);
+    colour_highlight = 0;
 }
 
 bool Pump::Init(int x0, int y0, int pump_pin_nr, int pump_nr)
@@ -26,10 +27,11 @@ bool Pump::Init(int x0, int y0, int pump_pin_nr, int pump_nr)
     re_render_ = true;
 }
 
-bool Pump::SetHighlight()
+bool Pump::SetHighlight(uint16_t colour)
 {
     is_highlighted_ = true;
     re_render_ = true;
+    colour_highlight = colour;
 }
 bool Pump::RemoveHighlight()
 {
@@ -58,9 +60,9 @@ bool Pump::Render(MCUFRIEND_kbv *screen)
 
         if(is_highlighted_)
         {
-            // Draw highlight box in orange
+            // Draw highlight box
             
-            screen->fillRoundRect(x0_ - HIGHLIGHT_WIDTH, y0_ - HIGHLIGHT_WIDTH, ICON_SIZE_X + 2*HIGHLIGHT_WIDTH, ICON_SIZE_Y + 2*HIGHLIGHT_WIDTH, 7, 0xFBE0 );
+            screen->fillRoundRect(x0_ - HIGHLIGHT_WIDTH, y0_ - HIGHLIGHT_WIDTH, ICON_SIZE_X + 2*HIGHLIGHT_WIDTH, ICON_SIZE_Y + 2*HIGHLIGHT_WIDTH, 7, colour_highlight );
         }
 
         // Draw white area

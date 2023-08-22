@@ -118,7 +118,7 @@ void loop() {
     /* Handle Drink Machine Logic */
     drinkmachine.Update(user_input, dt);
 
-    delay(100);
+    delay(50);
 
 }
 

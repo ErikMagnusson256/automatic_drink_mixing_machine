@@ -24,7 +24,7 @@ Pump(int x0, int y0, int pump_pin_nr, int pump_nr);
 Pump();
 bool Init(int x0, int y0, int pump_pin_nr, int pump_nr);
 
-bool SetHighlight();
+bool SetHighlight(uint16_t colour);
 bool RemoveHighlight();
 
 bool SetVolume(float amount);
@@ -45,6 +45,7 @@ float last_pump_volume_; // Save last known pump volume, to indicate weather the
 
 bool is_highlighted_;
 bool re_render_;
+uint16_t colour_highlight;
 
 };
 

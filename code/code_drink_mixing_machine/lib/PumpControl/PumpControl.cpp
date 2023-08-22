@@ -88,36 +88,83 @@ bool PumpControl::SetPumpVolume(int pump_nr,float volume, float glass_max_volume
     return true;
 }
 
-bool PumpControl::SetPumpHighlight(int pump_nr)
+bool PumpControl::SetPumpHighlight(int pump_nr, uint16_t colour)
 {   
-    // Valid pumps are 1,2,3 and 4
-    if( pump_nr  < 1 || pump_nr > 4)
+    // Valid pumps are 1,2,3 and 4, 0 is a flag to deselect all pumps
+    if( pump_nr  < 0 || pump_nr > 4)
     {
         return false;
     }
+    
+    
 
-    pump_1.RemoveHighlight();
-    pump_2.RemoveHighlight();
-    pump_3.RemoveHighlight();
-    pump_4.RemoveHighlight();
-   
+    // Keep track of last active pump - no need to re render if nothing has been changed regardign highlight
+    static int last_pump_nr = -1;
 
+    if(last_pump_nr == pump_nr)
+        return true;
+
+
+    // De select all pumps and then exit without selecting new pump
+    if (pump_nr == 0)
+    {
+        // Turn off  highlight for previously selected pump
+        switch (last_pump_nr)
+        {
+        case 1:
+            pump_1.RemoveHighlight();
+            break;
+        case 2:
+            pump_2.RemoveHighlight();
+            break;
+        case 3:
+            pump_3.RemoveHighlight();
+            break;
+        case 4:
+            pump_4.RemoveHighlight();
+            break;
+        }
+        last_pump_nr = pump_nr;
+        return true;
+    }
+
+
+    // Turn off  highlight for previously selected pump
+    switch (last_pump_nr)
+    {
+    case 1:
+        pump_1.RemoveHighlight();
+        break;
+    case 2:
+        pump_2.RemoveHighlight();
+        break;
+    case 3:
+        pump_3.RemoveHighlight();
+        break;
+    case 4:
+        pump_4.RemoveHighlight();
+        break;
+    }
+    
+    
+    // Turn on highlight for newly selected pump
     switch (pump_nr)
     {
     case 1:
-        pump_1.SetHighlight();
+        pump_1.SetHighlight(colour);
         break;
     case 2:
-        pump_2.SetHighlight();
+        pump_2.SetHighlight(colour);
         break;
     case 3:
-        pump_3.SetHighlight();
+        pump_3.SetHighlight(colour);
         break;
     case 4:
-        pump_4.SetHighlight();
+        pump_4.SetHighlight(colour);
         break;
     }
 
+    last_pump_nr = pump_nr;
     return true;
 }
 
@@ -132,7 +179,8 @@ bool PumpControl::Render(MCUFRIEND_kbv *screen,  uint32_t dt_ms)
     
 
     // Draw outline rounded rectangle
-    screen->drawRoundRect(this->x0_, this->y0_, this->width_, this->height_, 10 ,0x0000 );
+    //screen->fillRoundRect(this->x0_, this->y0_, this->width_, this->height_, 10, DARK_GREEN);
+    screen->drawRoundRect(this->x0_, this->y0_, this->width_, this->height_, 10, BLACK);
 
     // Draw title text
     int16_t x0_txt, y0_txt;

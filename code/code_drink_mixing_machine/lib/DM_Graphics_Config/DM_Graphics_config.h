@@ -18,11 +18,15 @@ and useful helper functions related to the MCUFRIEND_kbv graphics library
 #define	BLUE    0x001F
 #define	RED     0xF800
 #define	GREEN   0x07E0
+#define DARK_GREEN 0x33A6
 #define CYAN    0x07FF
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 #define GREY    0x7BEF
+#define DARK_GREY 0x632C
+#define ORANGE  0xD586
+#define DARK_ORANGE 0xDAA4
 
 /* Screen Size Parameters */
 #define SCREEN_WIDTH 320

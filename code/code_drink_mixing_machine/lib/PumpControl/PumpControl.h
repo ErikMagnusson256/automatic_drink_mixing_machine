@@ -8,6 +8,7 @@ Include libraries, external libraries must be specified in platform.io file
 #include "Adafruit_GFX.h"
 #include <MCUFRIEND_kbv.h>
 #include "Pump.h"
+#include "DM_Graphics_Config.h"
 
 /*
 Constants
@@ -25,7 +26,7 @@ PumpControl();
 bool Init(int x0, int y0, int width, int height);
 
 bool SetPumpVolume(int pump_nr, float volume, float glass_max_volume);
-bool SetPumpHighlight(int pump_nr);
+bool SetPumpHighlight(int pump_nr, uint16_t colour);
 
 bool PourDrink();
 
