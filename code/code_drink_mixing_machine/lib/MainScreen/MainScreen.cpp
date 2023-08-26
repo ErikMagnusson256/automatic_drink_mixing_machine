@@ -230,10 +230,9 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
 bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
 {
     // If no menu item on screen is selected, the userinput should be used to move a virtual cursor, which can be used to select an menu item
-    if(true)
+    if(!p1_selected && !p2_selected && !p3_selected && !p4_selected && !pour_drink_selected && !randomize_drink_selected && !settings_selected)
     {   
-        //@todo condition
-
+        // Move cursor around
         if(user_input.joystick_y < 400)
         {
             screen_y_cursor--;
@@ -266,7 +265,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
                 screen_x_cursor = 1;
         }
 
-        /* Check where virtual cursor is at - highlight the menu item it is located at */
+        /* Check where virtual cursor is at - highlight the menu item it is located at and select it*/
         /*
         1. Remove all highlights
         2. Set new highlight where screen cursor is at
@@ -302,7 +301,6 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
        }
        else if(screen_y_cursor == 2)
        {
-        // @todo
         // Highlight pour drink button
         pump_control.SetPumpHighlight(0, YELLOW);
         pour_drink_highlight = true;
@@ -312,7 +310,6 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
        }
        else if(screen_y_cursor == 3)
        {
-        // @todo
         // Highlight randomize drink button
         pump_control.SetPumpHighlight(0, YELLOW);
         pour_drink_highlight = false;
@@ -321,7 +318,6 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
        }
        else if(screen_y_cursor == 4)
        {
-        // @todo
         // Highlight settings button
         pump_control.SetPumpHighlight(0, YELLOW);
         pour_drink_highlight = false;
@@ -350,11 +346,57 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
                         (-,4)
             */
 
-           if(screen_x_cursor == 0 && screen_y_cursor == 0)
-           {
-            p1_selected = true;
-            pump_control.SetPumpHighlight(1, RED);
-           }
+            if(screen_x_cursor == 0 && screen_y_cursor == 0)
+            {
+                p1_selected = true;
+                pump_control.SetPumpHighlight(1, RED);
+                Serial.println("Selected pump 1!!");
+            }
+            else if(screen_x_cursor == 1 && screen_y_cursor == 0)
+            {
+                p2_selected = true;
+                pump_control.SetPumpHighlight(2, RED);
+                Serial.println("Selected pump 2!!");
+            }
+            else if(screen_x_cursor == 0 && screen_y_cursor == 1)
+            {
+                p3_selected = true;
+                pump_control.SetPumpHighlight(3, RED);
+                Serial.println("Selected pump 3!!");
+            }
+            else if(screen_x_cursor == 1 && screen_y_cursor == 1)
+            {
+                p4_selected = true;
+                pump_control.SetPumpHighlight(4, RED);
+                Serial.println("Selected pump 4!!");
+            }
+            else if(screen_y_cursor == 2)
+            {
+                // Highlight pour drink button
+                pump_control.SetPumpHighlight(0, RED);
+                pour_drink_selected = true;
+                randomize_drink_selected = false;
+                settings_selected = false;
+
+            }
+            else if(screen_y_cursor == 3)
+            {
+                // Highlight randomize drink button
+                pump_control.SetPumpHighlight(0, RED);
+                pour_drink_selected = false;
+                randomize_drink_selected = true;
+                settings_selected = false;
+            }
+            else if(screen_y_cursor == 4)
+            {
+                // Highlight settings button
+                pump_control.SetPumpHighlight(0, RED);
+                pour_drink_selected = false;
+                randomize_drink_selected = false;
+                settings_selected = true;
+            }
+           
+
            
            /*
            Menu items are de-selected from their respective logic handling part bellow
@@ -364,9 +406,201 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
     }
     else
     {
-        // A menu item is selected, depening on what is selecting perform a different action
+        // A menu item is selected, depening on what is selected perform a different action
         
-        //todo
+        if(p1_selected)
+        {
+            // Exit pump increment
+            if(user_input.button_confirm == true || user_input.button_return == true)
+            {
+                p1_selected = false;
+                pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            }
+
+            if(user_input.joystick_y < 400)
+            {
+                float current_vol = pump_control.GetPumpVolume(1);
+
+                current_vol += 1.0f;
+
+                pump_control.SetPumpVolume(1, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }
+
+            if(user_input.joystick_y > 600)
+            {
+                float current_vol = pump_control.GetPumpVolume(1);
+
+                current_vol -= 1.0f;
+
+                pump_control.SetPumpVolume(1, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }   
+        }
+
+        if(p2_selected)
+        {
+            // Exit pump increment
+            if(user_input.button_confirm == true || user_input.button_return == true)
+            {
+                p2_selected = false;
+                pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            }
+
+            if(user_input.joystick_y < 400)
+            {
+                float current_vol = pump_control.GetPumpVolume(2);
+
+                current_vol += 1.0f;
+
+                pump_control.SetPumpVolume(2, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }
+
+            if(user_input.joystick_y > 600)
+            {
+                float current_vol = pump_control.GetPumpVolume(2);
+
+                current_vol -= 1.0f;
+
+                pump_control.SetPumpVolume(2, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }   
+        }
+
+        if(p3_selected)
+        {
+            // Exit pump increment
+            if(user_input.button_confirm == true || user_input.button_return == true)
+            {
+                p3_selected = false;
+                pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            }
+
+            if(user_input.joystick_y < 400)
+            {
+                float current_vol = pump_control.GetPumpVolume(3);
+
+                current_vol += 1.0f;
+
+                pump_control.SetPumpVolume(3, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }
+
+            if(user_input.joystick_y > 600)
+            {
+                float current_vol = pump_control.GetPumpVolume(3);
+
+                current_vol -= 1.0f;
+
+                pump_control.SetPumpVolume(3, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }   
+        }
+
+        if(p4_selected)
+        {
+            // Exit pump increment
+            if(user_input.button_confirm == true || user_input.button_return == true)
+            {
+                p4_selected = false;
+                pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            }
+
+            if(user_input.joystick_y < 400)
+            {
+                float current_vol = pump_control.GetPumpVolume(4);
+
+                current_vol += 1.0f;
+
+                pump_control.SetPumpVolume(4, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }
+
+            if(user_input.joystick_y > 600)
+            {
+                float current_vol = pump_control.GetPumpVolume(4);
+
+                current_vol -= 1.0f;
+
+                pump_control.SetPumpVolume(4, current_vol, 50); //todo remove hardcoded maxvol use use previous user input
+            }   
+        }
+
+        if(pour_drink_selected)
+        {
+            // todo some logic here
+
+            if(user_input.button_confirm == true || user_input.button_return == true)
+            {
+                pour_drink_selected = false;
+                pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            }
+        }
+
+        if(randomize_drink_selected)
+        {
+            // todo future work make this more flashy
+
+            // https://math.stackexchange.com/questions/1276206/method-of-generating-random-numbers-that-sum-to-100-is-this-truly-random 
+            int max_val = 50;
+
+            int a = random(0, max_val);
+            int b = random(0, max_val);
+            int c = random(0, max_val);
+        
+
+            // order a, b, c in rising order, a is lowest
+
+            if(b < a)
+            {
+                int temp = b;
+                a = b;
+                b = temp;
+            }
+            
+            if( c < b)
+            {
+                int temp = c;
+                b = c;
+                c = temp;
+
+                if(b < a)
+                {
+                    int temp = b;
+                    a = b;
+                    b = temp;
+                }
+            }
+
+            int vol_1 = a;
+            int vol_2 = b-a;
+            int vol_3 = c-b;
+            int vol_4 = max_val - c;
+
+            pump_control.SetPumpVolume(1, vol_1, max_val);
+            pump_control.SetPumpVolume(2, vol_2, max_val);
+            pump_control.SetPumpVolume(3, vol_3, max_val);
+            pump_control.SetPumpVolume(4, vol_4, max_val);
+
+            Serial.println("Randomized pump amounts:" + String(vol_1) + "," + String(vol_2) + "," + String(vol_3) + "," + String(vol_4));
+            delay(50);
+            randomize_drink_selected = false;
+
+            //if(user_input.button_confirm == true || user_input.button_return == true)
+            //{
+            //    randomize_drink_selected = false;
+            //    pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            //}
+
+
+
+            randomize_drink_selected = false;
+        }
+
+        if(settings_selected)
+        {
+            // todo some logic here
+
+            if(user_input.button_confirm == true || user_input.button_return == true)
+            {
+                settings_selected = false;
+                pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            }
+        }
     }
 
     return true;

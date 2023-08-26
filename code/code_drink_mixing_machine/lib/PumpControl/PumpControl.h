@@ -25,6 +25,7 @@ public:
 PumpControl();
 bool Init(int x0, int y0, int width, int height);
 
+float GetPumpVolume(int pump_nr);
 bool SetPumpVolume(int pump_nr, float volume, float glass_max_volume);
 bool SetPumpHighlight(int pump_nr, uint16_t colour);
 

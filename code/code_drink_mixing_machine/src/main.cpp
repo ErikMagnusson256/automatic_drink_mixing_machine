@@ -29,6 +29,7 @@ Code is run on an Arduino Mega 2560
 
 DrinkMachine drinkmachine;
 MCUFRIEND_kbv tft;
+InputVector user_input;
 
 void setup();
 void loop();
@@ -36,6 +37,9 @@ void loop();
 //PumpControl testPumpCtrl;
 
 void setup() {
+
+    randomSeed(analogRead(A15));
+
     Serial.begin(9600);
     uint32_t when = millis();
     //    while (!Serial) ;   //hangs a Leonardo until you connect a Serial
@@ -95,7 +99,7 @@ void loop() {
     int button_ok = digitalRead(BUTTON_OK_PIN);
     int button_return = digitalRead(BUTTON_RETURN_PIN);
 
-    InputVector user_input;
+    Serial.println("j_x,j_y:" + String(j_x) + "," + String(j_y));
 
     user_input.joystick_x = j_x;
     user_input.joystick_y = j_y;

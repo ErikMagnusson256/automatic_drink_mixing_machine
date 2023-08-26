@@ -27,6 +27,38 @@ bool PumpControl::Init(int x0, int y0, int width, int height)
 
 }
 
+float PumpControl::GetPumpVolume(int pump_nr)
+{
+    if(pump_nr < 0 || pump_nr > 4)
+        return -1.0;
+
+    switch(pump_nr)
+    {
+        case 1:
+        {
+            return pump_1.GetVolume();
+            break;
+        }
+        case 2:
+        {
+            return pump_2.GetVolume();
+            break;
+        }
+        case 3:
+        {
+            return pump_3.GetVolume();
+            break;
+        }
+        case 4:
+        {
+            return pump_4.GetVolume();
+            break;
+        }
+    }
+
+    return -1;
+}
+
 bool PumpControl::SetPumpVolume(int pump_nr,float volume, float glass_max_volume)
 {
     // Valid pumps are 1,2,3 and 4
@@ -100,8 +132,9 @@ bool PumpControl::SetPumpHighlight(int pump_nr, uint16_t colour)
 
     // Keep track of last active pump - no need to re render if nothing has been changed regardign highlight
     static int last_pump_nr = -1;
+    uint32_t last_colour = 0;
 
-    if(last_pump_nr == pump_nr)
+    if( (last_pump_nr == pump_nr) )//&& (last_colour == colour) )
         return true;
 
 
@@ -125,6 +158,7 @@ bool PumpControl::SetPumpHighlight(int pump_nr, uint16_t colour)
             break;
         }
         last_pump_nr = pump_nr;
+    
         return true;
     }
 
@@ -165,6 +199,7 @@ bool PumpControl::SetPumpHighlight(int pump_nr, uint16_t colour)
     }
 
     last_pump_nr = pump_nr;
+    last_colour = colour;
     return true;
 }
 
