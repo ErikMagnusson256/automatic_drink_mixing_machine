@@ -90,18 +90,18 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         re_render_pour_drink_button = true;
     }
 
-    if(pour_drink_highlight == true && last_render_pour_drink_highlight == false)
-    {
-        screen->fillRoundRect(50, 320, SCREEN_WIDTH-100, 60, 5, YELLOW);
-        last_render_pour_drink_highlight = true;
-        re_render_pour_drink_button = true;
-    }
-    else if(pour_drink_selected == true && last_render_pour_drink_highlight == false)
+    if(pour_drink_selected == true && last_render_pour_drink_highlight == false)
     {
         screen->fillRoundRect(50, 320, SCREEN_WIDTH-100, 60, 5, RED);
         last_render_pour_drink_selected = true;
         re_render_pour_drink_button = true;
     } 
+    else if(pour_drink_highlight == true && last_render_pour_drink_highlight == false)
+    {
+        screen->fillRoundRect(50, 320, SCREEN_WIDTH-100, 60, 5, YELLOW);
+        last_render_pour_drink_highlight = true;
+        re_render_pour_drink_button = true;
+    }
     else if ( (pour_drink_highlight == false && pour_drink_selected == false) && re_render_pour_drink_button)
     {
         screen->fillRoundRect(50, 320, SCREEN_WIDTH-100, 60, 5, WHITE);
@@ -142,16 +142,16 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         re_render_randomize_drink_button = true;
     }
 
-    if(randomize_drink_highlight == true && last_render_randomize_drink_highlight == false)
-    {
-        screen->fillRoundRect(50, 385, SCREEN_WIDTH-100, 40, 5, YELLOW);
-        last_render_randomize_drink_highlight = true;
-        re_render_randomize_drink_button = true;
-    }
-    else if(randomize_drink_selected == true && last_render_randomize_drink_highlight == false)
+    if(randomize_drink_selected == true && last_render_randomize_drink_highlight == false)
     {
         screen->fillRoundRect(50, 385, SCREEN_WIDTH-100, 40, 5, RED);
         last_render_randomize_drink_selected = true;
+        re_render_randomize_drink_button = true;
+    }
+    else if(randomize_drink_highlight == true && last_render_randomize_drink_highlight == false)
+    {
+        screen->fillRoundRect(50, 385, SCREEN_WIDTH-100, 40, 5, YELLOW);
+        last_render_randomize_drink_highlight = true;
         re_render_randomize_drink_button = true;
     } 
     else if ( (randomize_drink_highlight == false && randomize_drink_selected == false) && re_render_randomize_drink_button)
@@ -193,18 +193,18 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         re_render_settings_button = true;
     }
 
-    if(settings_highlight == true && last_render_settings_highlight == false)
-    {
-        screen->fillRoundRect(50, 440, SCREEN_WIDTH-100, 40, 5, YELLOW);
-        last_render_settings_highlight = true;
-        re_render_settings_button = true;
-    }
-    else if(settings_selected == true && last_render_settings_highlight == false)
+    if(settings_selected == true && last_render_settings_highlight == false)
     {
         screen->fillRoundRect(50, 440, SCREEN_WIDTH-100, 40, 5, RED);
         last_render_settings_selected = true;
         re_render_settings_button = true;
     } 
+    else if(settings_highlight == true && last_render_settings_highlight == false)
+    {
+        screen->fillRoundRect(50, 440, SCREEN_WIDTH-100, 40, 5, YELLOW);
+        last_render_settings_highlight = true;
+        re_render_settings_button = true;
+    }
     else if ( (settings_highlight == false && settings_selected == false) && re_render_settings_button)
     {
         screen->fillRoundRect(50, 440, SCREEN_WIDTH-100, 40, 5, WHITE);
@@ -302,7 +302,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
        else if(screen_y_cursor == 2)
        {
         // Highlight pour drink button
-        pump_control.SetPumpHighlight(0, YELLOW);
+        pump_control.SetPumpHighlight(0, 0);
         pour_drink_highlight = true;
         randomize_drink_highlight = false;
         settings_highlight = false;
@@ -311,7 +311,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
        else if(screen_y_cursor == 3)
        {
         // Highlight randomize drink button
-        pump_control.SetPumpHighlight(0, YELLOW);
+        pump_control.SetPumpHighlight(0, 0);
         pour_drink_highlight = false;
         randomize_drink_highlight = true;
         settings_highlight = false;
@@ -319,7 +319,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
        else if(screen_y_cursor == 4)
        {
         // Highlight settings button
-        pump_control.SetPumpHighlight(0, YELLOW);
+        pump_control.SetPumpHighlight(0, 0);
         pour_drink_highlight = false;
         randomize_drink_highlight = false;
         settings_highlight = true;
@@ -373,7 +373,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
             else if(screen_y_cursor == 2)
             {
                 // Highlight pour drink button
-                pump_control.SetPumpHighlight(0, RED);
+                pump_control.SetPumpHighlight(0, 0);
                 pour_drink_selected = true;
                 randomize_drink_selected = false;
                 settings_selected = false;
@@ -382,7 +382,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
             else if(screen_y_cursor == 3)
             {
                 // Highlight randomize drink button
-                pump_control.SetPumpHighlight(0, RED);
+                pump_control.SetPumpHighlight(0, 0);
                 pour_drink_selected = false;
                 randomize_drink_selected = true;
                 settings_selected = false;
@@ -390,7 +390,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
             else if(screen_y_cursor == 4)
             {
                 // Highlight settings button
-                pump_control.SetPumpHighlight(0, RED);
+                pump_control.SetPumpHighlight(0, 0);
                 pour_drink_selected = false;
                 randomize_drink_selected = false;
                 settings_selected = true;
@@ -538,45 +538,18 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
             // https://math.stackexchange.com/questions/1276206/method-of-generating-random-numbers-that-sum-to-100-is-this-truly-random 
             int max_val = 50;
 
-            int a = random(0, max_val);
-            int b = random(0, max_val);
-            int c = random(0, max_val);
-        
-
-            // order a, b, c in rising order, a is lowest
-
-            if(b < a)
-            {
-                int temp = b;
-                a = b;
-                b = temp;
-            }
             
-            if( c < b)
-            {
-                int temp = c;
-                b = c;
-                c = temp;
-
-                if(b < a)
-                {
-                    int temp = b;
-                    a = b;
-                    b = temp;
-                }
-            }
-
-            int vol_1 = a;
-            int vol_2 = b-a;
-            int vol_3 = c-b;
-            int vol_4 = max_val - c;
+            int vol_1 = (max_val/4)/2 + random((-max_val/4)/2, (max_val/4)/2);
+            int vol_2 = (max_val/4)/2 + random((-max_val/4)/2, (max_val/4)/2);
+            int vol_3 = (max_val/4)/2 + random((-max_val/4)/2, (max_val/4)/2);
+            int vol_4 = (max_val/4)/2 + random((-max_val/4)/2, (max_val/4)/2);
 
             pump_control.SetPumpVolume(1, vol_1, max_val);
             pump_control.SetPumpVolume(2, vol_2, max_val);
             pump_control.SetPumpVolume(3, vol_3, max_val);
             pump_control.SetPumpVolume(4, vol_4, max_val);
 
-            Serial.println("Randomized pump amounts:" + String(vol_1) + "," + String(vol_2) + "," + String(vol_3) + "," + String(vol_4));
+            Serial.println("Randomized pump amounts:" + String(vol_1) + "," + String(vol_2) + "," + String(vol_3) + "," + String(vol_4) + ", sum=" + String(vol_1 + vol_2 + vol_3 + vol_4));
             delay(50);
             randomize_drink_selected = false;
 

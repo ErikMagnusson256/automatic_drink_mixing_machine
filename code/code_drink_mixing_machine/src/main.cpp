@@ -99,7 +99,7 @@ void loop() {
     int button_ok = digitalRead(BUTTON_OK_PIN);
     int button_return = digitalRead(BUTTON_RETURN_PIN);
 
-    Serial.println("j_x,j_y:" + String(j_x) + "," + String(j_y));
+    //Serial.println("j_x,j_y:" + String(j_x) + "," + String(j_y));
 
     user_input.joystick_x = j_x;
     user_input.joystick_y = j_y;

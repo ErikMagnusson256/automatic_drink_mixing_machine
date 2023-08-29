@@ -134,7 +134,7 @@ bool PumpControl::SetPumpHighlight(int pump_nr, uint16_t colour)
     static int last_pump_nr = -1;
     uint32_t last_colour = 0;
 
-    if( (last_pump_nr == pump_nr) )//&& (last_colour == colour) )
+    if( last_pump_nr == pump_nr )
         return true;
 
 
@@ -161,7 +161,6 @@ bool PumpControl::SetPumpHighlight(int pump_nr, uint16_t colour)
     
         return true;
     }
-
 
     // Turn off  highlight for previously selected pump
     switch (last_pump_nr)
