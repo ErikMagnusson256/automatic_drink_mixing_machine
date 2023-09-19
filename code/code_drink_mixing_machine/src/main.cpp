@@ -3,6 +3,8 @@ Erik Magnusson 2023
 
 Codebase for automatic drink mixing machine
 
+Version = Alpha_0.1
+
 A 3.5 inch TFT lcd screen displays the GUI.
 GUI is handled using the MCUFRIEND_kbv and Adafruit_GFX libraries. Initial code is inspired by the hello world graphic test
 
