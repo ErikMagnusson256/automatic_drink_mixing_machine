@@ -1,7 +1,7 @@
 #include "StartupScreen.h"
 
 
-StartupScreen::StartupScreen()
+StartupScreen::StartupScreen() : ScreenBase()
 {
     glas_size = 25; //cl
     finnished_loading_screen = false;

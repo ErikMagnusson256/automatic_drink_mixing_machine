@@ -19,13 +19,14 @@ Upon startup the display shall show a loading screen and a glass size confirmati
 /* Include custom libraries and header files */
 #include "DM_CONFIG.h"
 #include "IO_Vector.h"
+#include "ScreenBase.h"
 
 
 /* Constants */
 #define LOADING_SCREEN_DURATION_MS 7000
 #define LOADING_SCREEN_PAUSE 1500
 
-class StartupScreen {
+class StartupScreen : ScreenBase{
 
 public:
 /* Public Functions */

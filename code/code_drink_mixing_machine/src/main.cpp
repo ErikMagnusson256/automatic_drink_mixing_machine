@@ -3,6 +3,8 @@ Erik Magnusson 2023
 
 Codebase for automatic drink mixing machine
 
+Version = alpha 02
+
 A 3.5 inch TFT lcd screen displays the GUI.
 GUI is handled using the MCUFRIEND_kbv and Adafruit_GFX libraries. Initial code is inspired by the hello world graphic test
 
@@ -21,9 +23,8 @@ Code is run on an Arduino Mega 2560
 
 /* Include Custom Libraries and headers created for the drink machine */
 #include "PumpControl.h"
-#include "InputVector.h"
-#include "DM_Graphics_Config.h"
-#include "DM_General_Config.h"
+#include "ScreenBase.h"
+#include "DM_CONFIG.h"
 
 #include "DrinkMachine.h"
 
@@ -89,6 +90,7 @@ void setup() {
     */
     
     }
+
 
 void loop() {
 

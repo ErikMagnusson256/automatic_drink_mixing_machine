@@ -2,6 +2,8 @@
 #ifndef __DM_CONFIG__
 #define __DM_CONFIG__
 
+#include "Adafruit_GFX.h"
+#include <MCUFRIEND_kbv.h>
 
 /*
 
@@ -61,5 +63,6 @@
 #define SCREEN_HEIGHT 480
 
 
+ void lcd_background(MCUFRIEND_kbv *screen);
 
 #endif

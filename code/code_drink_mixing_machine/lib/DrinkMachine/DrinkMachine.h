@@ -2,10 +2,10 @@
 #define __DRINKMACHINE__
 
 /* Include Custom Headers */
-#include "InputVector.h"
+#include "IO_Vector.h"
 #include "StartupScreen.h"
 #include "MainScreen.h"
-#include "DM_Graphics_Config.h"
+#include "DM_CONFIG.h"
 
 /* Include Standard Headers */
 #include "Arduino.h"

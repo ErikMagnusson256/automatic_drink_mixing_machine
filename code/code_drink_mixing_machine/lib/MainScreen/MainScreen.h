@@ -11,9 +11,8 @@
 
 
 /* Include custom libraries and header files */
-#include "DM_Graphics_config.h"
-#include "InputVector.h"
-#include "DM_General_Config.h"
+#include "IO_Vector.h"
+#include "DM_CONFIG.h"
 #include "PumpControl.h"
 
 class MainScreen {
