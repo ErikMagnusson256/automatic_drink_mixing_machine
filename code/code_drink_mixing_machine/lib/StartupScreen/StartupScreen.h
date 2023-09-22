@@ -17,9 +17,9 @@ Upon startup the display shall show a loading screen and a glass size confirmati
 
 
 /* Include custom libraries and header files */
-#include "DM_Graphics_config.h"
-#include "InputVector.h"
-#include "DM_General_Config.h"
+#include "DM_CONFIG.h"
+#include "IO_Vector.h"
+
 
 /* Constants */
 #define LOADING_SCREEN_DURATION_MS 7000

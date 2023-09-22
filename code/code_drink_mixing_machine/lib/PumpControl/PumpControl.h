@@ -8,7 +8,7 @@ Include libraries, external libraries must be specified in platform.io file
 #include "Adafruit_GFX.h"
 #include <MCUFRIEND_kbv.h>
 #include "Pump.h"
-#include "DM_Graphics_Config.h"
+#include "DM_CONFIG.h"
 
 /*
 Constants
