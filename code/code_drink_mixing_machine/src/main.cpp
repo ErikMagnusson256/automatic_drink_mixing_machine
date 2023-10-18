@@ -31,9 +31,11 @@ Code is run on an Arduino Mega 2560
 DrinkMachine drinkmachine;
 MCUFRIEND_kbv tft;
 InputVector user_input;
+OutputVector machine_output_request;
 
 void setup();
 void loop();
+void handleMachineOutput(OutputVector* outpvec);
 
 //PumpControl testPumpCtrl;
 
@@ -122,9 +124,37 @@ void loop() {
     drinkmachine.Render(&tft, dt);
 
     /* Handle Drink Machine Logic */
-    drinkmachine.Update(user_input, dt);
+    drinkmachine.Update(user_input, dt); // &machine_output
+
+    /* Process any request to change arduino pin states */
+    handleMachineOutput(&machine_output_request);
 
     delay(50);
 
 }
 
+
+void handleMachineOutput(OutputVector* outpvec)
+{
+    // Go through all Output pins in outputvec and set Arduino IO pin value
+
+    // Handle pump pin output
+    digitalWrite(PUMP_1_PIN, outpvec->pump1_out_pin.pin_value);
+    digitalWrite(PUMP_2_PIN, outpvec->pump2_out_pin.pin_value);
+    digitalWrite(PUMP_3_PIN, outpvec->pump3_out_pin.pin_value);
+    digitalWrite(PUMP_4_PIN, outpvec->pump4_out_pin.pin_value);
+
+    // Reset nr writes to for each pin
+    outpvec->pump1_out_pin.nr_writes_to = 0;
+    outpvec->pump2_out_pin.nr_writes_to = 0;
+    outpvec->pump3_out_pin.nr_writes_to = 0;
+    outpvec->pump4_out_pin.nr_writes_to = 0;
+
+    // Reset debug message
+    outpvec->pump1_out_pin.debug_string_msg = "";
+    outpvec->pump2_out_pin.debug_string_msg = "";
+    outpvec->pump3_out_pin.debug_string_msg = "";
+    outpvec->pump4_out_pin.debug_string_msg = "";
+
+    // TODO: Handle LED output
+}

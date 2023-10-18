@@ -26,6 +26,13 @@
 #define BUTTON_RETURN_PIN 16
 #define RANDOMIZER_PIN A12
 
+/* Output pins - These have to be configured in main.cpp setup function */
+/* Digital out pins */
+#define PUMP_1_PIN 2
+#define PUMP_2_PIN 3
+#define PUMP_3_PIN 4
+#define PUMP_4_PIN 5
+
 /*
 
     EEPROM CONFIG
