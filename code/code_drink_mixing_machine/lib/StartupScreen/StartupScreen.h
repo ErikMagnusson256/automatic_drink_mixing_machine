@@ -26,7 +26,7 @@ Upon startup the display shall show a loading screen and a glass size confirmati
 #define LOADING_SCREEN_DURATION_MS 7000
 #define LOADING_SCREEN_PAUSE 1500
 
-class StartupScreen : ScreenBase{
+class StartupScreen {
 
 public:
 /* Public Functions */

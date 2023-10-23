@@ -80,9 +80,14 @@ void setup() {
     pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP); 
     pinMode(BUTTON_OK_PIN, INPUT_PULLUP);
     pinMode(BUTTON_RETURN_PIN, INPUT_PULLUP);
+    pinMode(PUMP_1_PIN, DIGITAL_OUT);
+    pinMode(PUMP_2_PIN, DIGITAL_OUT);
+    pinMode(PUMP_3_PIN, DIGITAL_OUT);
+    pinMode(PUMP_4_PIN, DIGITAL_OUT);
+    
 
     /*
-    Incase EEPROM needs to be reset
+    Incase EEPROM needs to be reset, uncomment lines below and reflash Arduino Mega 2560, re comment lines below and flash again!!
 
     int reset_nr_drinks = 0;
     float reset_amount_poured = 0;
@@ -139,10 +144,18 @@ void handleMachineOutput(OutputVector* outpvec)
     // Go through all Output pins in outputvec and set Arduino IO pin value
 
     // Handle pump pin output
-    digitalWrite(PUMP_1_PIN, outpvec->pump1_out_pin.pin_value);
-    digitalWrite(PUMP_2_PIN, outpvec->pump2_out_pin.pin_value);
-    digitalWrite(PUMP_3_PIN, outpvec->pump3_out_pin.pin_value);
-    digitalWrite(PUMP_4_PIN, outpvec->pump4_out_pin.pin_value);
+    if(outpvec->pump1_out_pin.nr_writes_to > 0)
+        digitalWrite(PUMP_1_PIN, outpvec->pump1_out_pin.pin_value);
+    
+    if(outpvec->pump2_out_pin.nr_writes_to > 0)
+        digitalWrite(PUMP_2_PIN, outpvec->pump2_out_pin.pin_value);
+
+    if(outpvec->pump3_out_pin.nr_writes_to > 0)
+        digitalWrite(PUMP_3_PIN, outpvec->pump3_out_pin.pin_value);
+
+    if(outpvec->pump4_out_pin.nr_writes_to > 0)
+        digitalWrite(PUMP_4_PIN, outpvec->pump4_out_pin.pin_value);
+
 
     // Reset nr writes to for each pin
     outpvec->pump1_out_pin.nr_writes_to = 0;

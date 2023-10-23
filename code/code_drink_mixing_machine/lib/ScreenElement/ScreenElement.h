@@ -38,14 +38,25 @@ class ScreenElement {
     protected:
 
     public:
+    
+    int pos_x;
+    int pos_y;
+
+    int width;
+    int height;
+    int border_size;
+
+    bool rounded_corner;
+
 
     ScreenElement();
+    ScreenElement(int pos_x_input, int pos_y_input, int width_input, int height_input, int border_size_input, bool rounded_corner_input);
 
     virtual bool Draw(MCUFRIEND_kbv *screen, uint32_t dt_ms);
 
     virtual bool ForceDraw(MCUFRIEND_kbv *screen);
 
-    virtual bool Update(const InputVector &user_input, OutputVector &machine_output, uint32_t  dt_ms);
+    virtual bool Update(const InputVector &user_input, OutputVector &machine_output_request, uint32_t  dt_ms);
 
 };
 
