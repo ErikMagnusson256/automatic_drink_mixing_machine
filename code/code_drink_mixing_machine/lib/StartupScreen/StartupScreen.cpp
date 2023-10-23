@@ -205,13 +205,13 @@ bool StartupScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
         float max_rate = 5; // max volume change per 1000 ms
         static float temp_glas_volume = 25;
 
-        if(user_input.joystick_y > 600)
+        if(user_input.joystick_y > JOYSTICK_Y_INCREASE_TRIGGER_LIMIT)
         {
             temp_glas_volume -= max_rate*dt_ms/1000.0;
            
             re_render_selecing_screen = true;
         }
-        else if (user_input.joystick_y < 400)
+        else if (user_input.joystick_y < JOYSTICK_Y_DECREASE_TRIGGER_LIMIT)
         {
             temp_glas_volume += max_rate*dt_ms/1000.0;
 

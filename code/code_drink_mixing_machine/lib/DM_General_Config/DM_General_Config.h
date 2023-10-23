@@ -23,6 +23,12 @@ I/O Pins, Constants, etc
 #define BUTTON_RETURN_PIN 16
 #define RANDOMIZER_PIN A12
 
+/* Joystick analog limits */
+#define JOYSTICK_X_DECREASE_TRIGGER_LIMIT 400
+#define JOYSTICK_X_INCREASE_TRIGGER_LIMIT 600
+#define JOYSTICK_Y_DECREASE_TRIGGER_LIMIT 400
+#define JOYSTICK_Y_INCREASE_TRIGGER_LIMIT 600
+
 /* EEPROM memory adress(es) for Drink Machine (0 - 1023) */
 /* Used to store key information of drink machine state between power cycles in non volatile memory */
 #define EEPROM_ADR_NR_DRINKS 2 //integer variable -> 16 bit -> 2 bytes of data

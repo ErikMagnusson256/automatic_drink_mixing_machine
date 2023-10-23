@@ -24,6 +24,10 @@ MainScreen(); // Constructor
 bool Render(MCUFRIEND_kbv *screen, uint32_t dt_ms); 
 bool Update(const InputVector &user_input, uint32_t  dt_ms);
 
+bool IsReadyToPour();
+bool ResetReadyToPour();
+bool GetDrinkAmounts(float* amount1, float* amount2, float* amount3,  float* amount4);
+
 private:
 PumpControl pump_control;
 
@@ -43,6 +47,9 @@ bool settings_selected;
 bool pour_drink_highlight;
 bool randomize_drink_highlight;
 bool settings_highlight;
+
+// True if user has pressed pour drink button and the pump amounts are valid.
+bool ready_to_pour_drink;
 
 };
 

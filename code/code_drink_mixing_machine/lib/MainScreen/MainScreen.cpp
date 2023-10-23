@@ -20,6 +20,8 @@ MainScreen::MainScreen()
     pour_drink_highlight = false;
     randomize_drink_highlight = false;
     settings_highlight = false;
+
+    ready_to_pour_drink = false;
 }
 
 bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
@@ -233,7 +235,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
     if(!p1_selected && !p2_selected && !p3_selected && !p4_selected && !pour_drink_selected && !randomize_drink_selected && !settings_selected)
     {   
         // Move cursor around
-        if(user_input.joystick_y < 400)
+        if(user_input.joystick_y < JOYSTICK_Y_DECREASE_TRIGGER_LIMIT)
         {
             screen_y_cursor--;
 
@@ -241,7 +243,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
                 screen_y_cursor = 0;
         }
 
-        if(user_input.joystick_y > 600)
+        if(user_input.joystick_y > JOYSTICK_Y_INCREASE_TRIGGER_LIMIT)
         {
             screen_y_cursor++;
             
@@ -249,7 +251,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
                 screen_y_cursor = 4;
         }
 
-        if(user_input.joystick_x < 400)
+        if(user_input.joystick_x < JOYSTICK_X_DECREASE_TRIGGER_LIMIT)
         {
             screen_x_cursor--;
 
@@ -257,7 +259,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
                 screen_x_cursor = 0;
         }
 
-        if(user_input.joystick_x > 600)
+        if(user_input.joystick_x > JOYSTICK_X_INCREASE_TRIGGER_LIMIT)
         {
             screen_x_cursor++;
 
@@ -522,7 +524,7 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
 
         if(pour_drink_selected)
         {
-            // todo some logic here
+            ready_to_pour_drink = true;
 
             if(user_input.button_confirm == true || user_input.button_return == true)
             {
@@ -575,6 +577,40 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
             }
         }
     }
+
+    return true;
+}
+
+bool MainScreen::IsReadyToPour()
+{
+    if(ready_to_pour_drink 
+                            && pump_control.GetPumpVolume(1) >= 0
+                            && pump_control.GetPumpVolume(2) >= 0
+                            && pump_control.GetPumpVolume(3) >= 0
+                            && pump_control.GetPumpVolume(4) >= 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool MainScreen::ResetReadyToPour()
+{
+    ready_to_pour_drink = false;
+}
+
+bool MainScreen::GetDrinkAmounts(float* amount1, float* amount2, float* amount3,  float* amount4)
+{
+    if(pump_control.GetPumpVolume(1) < 0 || pump_control.GetPumpVolume(2) < 0 || pump_control.GetPumpVolume(3) < 0 || pump_control.GetPumpVolume(4) < 0)
+    {
+        return false;
+    }
+
+    *amount1 = pump_control.GetPumpVolume(1);
+    *amount2 = pump_control.GetPumpVolume(2);
+    *amount3 = pump_control.GetPumpVolume(3);
+    *amount4 = pump_control.GetPumpVolume(4);
 
     return true;
 }
