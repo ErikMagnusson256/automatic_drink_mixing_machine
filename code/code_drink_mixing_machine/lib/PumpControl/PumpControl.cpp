@@ -235,3 +235,13 @@ bool PumpControl::Render(MCUFRIEND_kbv *screen,  uint32_t dt_ms)
 
     return true;
 }
+
+bool PumpControl::ForceReRender() // FOrces re rendering of indiviudal pumps next render cycle
+{
+    pump_1.ForceReRender();
+    pump_2.ForceReRender();
+    pump_3.ForceReRender();
+    pump_4.ForceReRender();
+
+    return true;
+}

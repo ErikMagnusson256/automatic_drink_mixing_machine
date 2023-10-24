@@ -11,6 +11,7 @@
 #include "DM_Graphics_config.h"
 #include "InputVector.h"
 #include "DM_General_Config.h"
+#include "ClickableButton.h"
 
 /*
     
@@ -41,11 +42,15 @@ bool IsDone();
 
 private:
 
+ClickableButton confirm_button;
+ClickableButton return_button;
+
 int screen_x_cursor; // Virtual cursor x
 int screen_y_cursor; // Virtual cursor y
 
 bool screen_reset;
 bool is_screen_done;
+bool confirmed_placed_glass;
 
 float amount1;
 float amount2;

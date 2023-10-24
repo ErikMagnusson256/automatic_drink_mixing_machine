@@ -23,6 +23,8 @@ I/O Pins, Constants, etc
 #define BUTTON_RETURN_PIN 16
 #define RANDOMIZER_PIN A12
 
+#define BUTTON_DEBOUNCE_TIME_MS 100
+
 /* Joystick analog limits */
 #define JOYSTICK_X_DECREASE_TRIGGER_LIMIT 400
 #define JOYSTICK_X_INCREASE_TRIGGER_LIMIT 600

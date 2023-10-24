@@ -106,11 +106,22 @@ void loop() {
     user_input.joystick_x = j_x;
     user_input.joystick_y = j_y;
 
-    if (joystick_press == 0)
-        user_input.button_confirm = true;
-    else
-        user_input.button_confirm = false;
+    static long last_debouce_time_button_ok = 0;
+    static long last_debouce_time_button_return = 0;
 
+    if ( (joystick_press == 0 || button_ok == 0 ) && (millis() - last_debouce_time_button_ok) > BUTTON_DEBOUNCE_TIME_MS )
+    {
+        user_input.button_confirm = true;
+        last_debouce_time_button_ok = millis();
+    }
+    else
+    {
+        user_input.button_confirm = false;
+    }
+
+    // Todo add same logic as above for return button
+
+    user_input.weight = 0; /* TODO READ FROM LOADCELL */
 
     /* Calculate the programming loop execution time to get a delta_t between iterations */
     static uint32_t t_old = 0;

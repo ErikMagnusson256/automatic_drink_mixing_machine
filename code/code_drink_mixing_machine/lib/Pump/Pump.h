@@ -24,6 +24,8 @@ Pump(int x0, int y0, int pump_pin_nr, int pump_nr);
 Pump();
 bool Init(int x0, int y0, int pump_pin_nr, int pump_nr);
 
+bool ForceReRender();
+
 bool SetHighlight(uint16_t colour);
 bool RemoveHighlight();
 

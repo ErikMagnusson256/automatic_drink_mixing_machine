@@ -22,12 +22,22 @@ MainScreen::MainScreen()
     settings_highlight = false;
 
     ready_to_pour_drink = false;
+
+    cleared_screen = false;
+    last_render_pour_drink_highlight = false;
+    last_render_pour_drink_selected = false;
+    re_render_pour_drink_button = true;        
+    last_render_randomize_drink_highlight = false;
+    last_render_randomize_drink_selected = false;
+    re_render_randomize_drink_button = true;
+    last_render_settings_highlight = false;
+    last_render_settings_selected = false;
+    re_render_settings_button = true;
 }
 
 bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
 {
     // Clear screen and set to a known background once
-    static bool cleared_screen = false;
     if(!cleared_screen)
     {
         screen->fillScreen(WHITE);
@@ -75,10 +85,6 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
     */
 
    //====== pour drink button ========
-
-    static bool last_render_pour_drink_highlight = false;
-    static bool last_render_pour_drink_selected = false;
-    static bool re_render_pour_drink_button = true;
 
     if(pour_drink_highlight == false && last_render_pour_drink_highlight == true)
     {
@@ -128,9 +134,7 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
 
    
    //====== randomize drink button ========
-    static bool last_render_randomize_drink_highlight = false;
-    static bool last_render_randomize_drink_selected = false;
-    static bool re_render_randomize_drink_button = true;
+    
 
     if(randomize_drink_highlight == false && last_render_randomize_drink_highlight == true)
     {
@@ -178,9 +182,7 @@ bool MainScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
   
 
     //====== settings button ========
-    static bool last_render_settings_highlight = false;
-    static bool last_render_settings_selected = false;
-    static bool re_render_settings_button = true;
+    
 
 
     if(settings_highlight == false && last_render_settings_highlight == true)
@@ -531,6 +533,8 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
                 pour_drink_selected = false;
                 pump_control.SetPumpHighlight(0, 0); // remove highlihht
             }
+
+            pour_drink_selected = false;
         }
 
         if(randomize_drink_selected)
@@ -598,6 +602,20 @@ bool MainScreen::IsReadyToPour()
 bool MainScreen::ResetReadyToPour()
 {
     ready_to_pour_drink = false;
+
+    // GUI should redraw next Render loop
+    cleared_screen = false;
+    last_render_pour_drink_highlight = false;
+    last_render_pour_drink_selected = false;
+    re_render_pour_drink_button = true;        
+    last_render_randomize_drink_highlight = false;
+    last_render_randomize_drink_selected = false;
+    re_render_randomize_drink_button = true;
+    last_render_settings_highlight = false;
+    last_render_settings_selected = false;
+    re_render_settings_button = true;
+
+    pump_control.ForceReRender();
 }
 
 bool MainScreen::GetDrinkAmounts(float* amount1, float* amount2, float* amount3,  float* amount4)

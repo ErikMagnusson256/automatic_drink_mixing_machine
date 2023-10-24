@@ -51,6 +51,13 @@ float Pump::GetVolume()
     return pump_volume_;
 }
 
+bool Pump::ForceReRender()
+{
+    re_render_ = true;
+
+    return true;
+}
+
 bool Pump::Render(MCUFRIEND_kbv *screen)
 {
     if(re_render_)

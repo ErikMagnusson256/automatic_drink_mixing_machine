@@ -32,6 +32,7 @@ bool SetPumpHighlight(int pump_nr, uint16_t colour);
 bool PourDrink();
 
 bool Render(MCUFRIEND_kbv *screen, uint32_t dt_ms);
+bool ForceReRender(); // FOrces re rendering of indiviudal pumps next render cycle
 
 /*
 Private variables

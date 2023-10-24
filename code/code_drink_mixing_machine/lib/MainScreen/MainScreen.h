@@ -51,6 +51,19 @@ bool settings_highlight;
 // True if user has pressed pour drink button and the pump amounts are valid.
 bool ready_to_pour_drink;
 
+// Internal state variables to keep track if screen elements have been cleared or not
+bool cleared_screen;
+bool last_render_pour_drink_highlight;
+bool last_render_pour_drink_selected;
+bool re_render_pour_drink_button;
+bool last_render_randomize_drink_highlight;
+bool last_render_randomize_drink_selected;
+bool re_render_randomize_drink_button;
+bool last_render_settings_highlight;
+bool last_render_settings_selected;
+bool re_render_settings_button;
+
+
 };
 
 #endif
