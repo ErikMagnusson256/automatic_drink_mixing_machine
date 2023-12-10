@@ -28,6 +28,11 @@ bool IsReadyToPour();
 bool ResetReadyToPour();
 bool GetDrinkAmounts(float* amount1, float* amount2, float* amount3,  float* amount4);
 
+bool IsReadyToChangeSettings();
+bool ResetReadyToChangeSettings();
+
+void ResetGUISetConditions();
+
 private:
 PumpControl pump_control;
 
@@ -50,6 +55,8 @@ bool settings_highlight;
 
 // True if user has pressed pour drink button and the pump amounts are valid.
 bool ready_to_pour_drink;
+
+bool ready_to_enter_settings_menu;
 
 // Internal state variables to keep track if screen elements have been cleared or not
 bool cleared_screen;

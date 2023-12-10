@@ -572,13 +572,15 @@ bool MainScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
 
         if(settings_selected)
         {
-            // todo some logic here
+            ready_to_enter_settings_menu = true;
 
-            if(user_input.button_confirm == true || user_input.button_return == true)
-            {
-                settings_selected = false;
-                pump_control.SetPumpHighlight(0, 0); // remove highlihht
-            }
+            //if(user_input.button_confirm == true || user_input.button_return == true)
+            //{
+            //    settings_selected = false;
+            //    pump_control.SetPumpHighlight(0, 0); // remove highlihht
+            //}
+
+            settings_selected = false;
         }
     }
 
@@ -599,10 +601,20 @@ bool MainScreen::IsReadyToPour()
     return false;
 }
 
-bool MainScreen::ResetReadyToPour()
+bool MainScreen::IsReadyToChangeSettings()
 {
-    ready_to_pour_drink = false;
+    return ready_to_enter_settings_menu;
+}
 
+bool MainScreen::ResetReadyToChangeSettings()
+{
+    ready_to_enter_settings_menu = false;
+
+    ResetGUISetConditions();
+}
+
+void MainScreen::ResetGUISetConditions()
+{
     // GUI should redraw next Render loop
     cleared_screen = false;
     last_render_pour_drink_highlight = false;
@@ -617,6 +629,15 @@ bool MainScreen::ResetReadyToPour()
 
     pump_control.ForceReRender();
 }
+
+bool MainScreen::ResetReadyToPour()
+{
+    ready_to_pour_drink = false;
+
+    ResetGUISetConditions();
+}
+
+
 
 bool MainScreen::GetDrinkAmounts(float* amount1, float* amount2, float* amount3,  float* amount4)
 {

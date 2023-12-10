@@ -4,7 +4,8 @@
 DrinkMachine::DrinkMachine() 
         : startup_screen(),
           main_screen(),
-          pour_drink_screen()
+          pour_drink_screen(),
+          settings_screen()
 {
     
 }
@@ -15,7 +16,7 @@ bool DrinkMachine::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms) // Renders stat
     {
         startup_screen.Render(screen, dt_ms);
     }
-    else if (!main_screen.IsReadyToPour())
+    else if (!main_screen.IsReadyToPour() && !main_screen.IsReadyToChangeSettings())
     {
         main_screen.Render(screen, dt_ms);
     }
@@ -24,10 +25,9 @@ bool DrinkMachine::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms) // Renders stat
         /* Render pour glass window */
         pour_drink_screen.Render(screen, dt_ms);
     }
-    else
+    else if ( main_screen.IsReadyToChangeSettings() )
     {
-        
-
+        settings_screen.Render(screen, dt_ms);
     }
 
     return true;
@@ -39,7 +39,7 @@ bool DrinkMachine::Update(const InputVector &user_input, uint32_t  dt_ms)
     {
         startup_screen.Update(user_input, dt_ms);
     }
-    else if (!main_screen.IsReadyToPour())
+    else if (!main_screen.IsReadyToPour() && !main_screen.IsReadyToChangeSettings() )
     {
         main_screen.Update(user_input, dt_ms);
 
@@ -54,6 +54,12 @@ bool DrinkMachine::Update(const InputVector &user_input, uint32_t  dt_ms)
             main_screen.GetDrinkAmounts(&amount1, &amount2, &amount3, &amount4);
             pour_drink_screen.InsertPumpAmounts(amount1, amount2, amount3, amount4);
         }
+
+        if(main_screen.IsReadyToChangeSettings() )
+        {
+            settings_screen.ResetScreen();
+        }
+
     }
     else if (!pour_drink_screen.IsDone() && main_screen.IsReadyToPour() )
     {
@@ -64,6 +70,17 @@ bool DrinkMachine::Update(const InputVector &user_input, uint32_t  dt_ms)
         if (pour_drink_screen.IsDone())
         {
             main_screen.ResetReadyToPour();
+        }
+    }
+    else if (!settings_screen.GetIsDone() && !main_screen.IsReadyToPour() && main_screen.IsReadyToChangeSettings() )
+    {
+        /* Update logic settings screen */
+        settings_screen.Update(user_input, dt_ms);
+
+        /* If settings screen is finnished, reset condition */
+        if(settings_screen.GetIsDone())
+        {
+            main_screen.ResetReadyToChangeSettings();
         }
     }
 }

@@ -20,7 +20,6 @@ FloatInputElement::FloatInputElement(int xpos_, int ypos_,int width_, int height
     button_colour = button_colour_;
     highlight_colour = highlight_colour_;
     select_colour = select_colour_;
-    button_text = button_text_;
     text_size = text_size_;
     text_colour = text_colour_;
 }
