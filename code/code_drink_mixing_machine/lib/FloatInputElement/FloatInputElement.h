@@ -33,7 +33,7 @@ class FloatInputElement {
 public:
 /* Public Functions */
 FloatInputElement(); // Constructor
-FloatInputElement(int xpos_, int ypos_, int width_, int height_, uint16_t button_colour_, uint16_t highlight_colour_, uint16_t select_colour_, String button_text_, int text_size_ , uint16_t text_colour_); // Constructor
+FloatInputElement(int xpos_, int ypos_, int width_, int height_, uint16_t button_colour_, uint16_t highlight_colour_, uint16_t select_colour_, int text_size_ , uint16_t text_colour_, String float_name_, String float_unit_, float incdec_amount_); // Constructor
 bool Render(MCUFRIEND_kbv *screen, uint32_t dt_ms); 
 bool Update(const InputVector &user_input, uint32_t  dt_ms);
 
@@ -49,6 +49,9 @@ bool SetIsSelected(bool input);
 bool SetFloatVal(float inputval);
 float GetFloatVal();
 
+bool GetExitCondition();
+bool ResetExitCondition();
+
 private:
 
 bool force_redraw;
@@ -63,7 +66,6 @@ String float_name;
 float float_val;
 float last_float_val;
 float incdec_amount;    // How much the float value should increase or decrease each system tick
-
 String float_unit; 
 
 int xpos;
@@ -75,6 +77,8 @@ uint16_t highlight_colour;
 uint16_t select_colour;
 int text_size; // According to <MCUFRIEND_kbv.h> library standard
 uint16_t text_colour;
+
+bool exit_logic_condition;
 
 };
 

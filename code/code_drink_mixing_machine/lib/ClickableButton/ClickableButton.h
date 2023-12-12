@@ -48,6 +48,8 @@ bool GetIsSelected();
 bool SetIsHighlighted(bool input);
 bool SetIsSelected(bool input);
 
+void SetButtonText(String new_button_text);
+
 private:
 
 bool force_redraw;

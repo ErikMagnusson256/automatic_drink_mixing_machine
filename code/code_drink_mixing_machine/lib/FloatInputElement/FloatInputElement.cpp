@@ -3,9 +3,9 @@
 
 FloatInputElement::FloatInputElement()
 {
-    FloatInputElement(100, 100, 50, 50, RED, GREEN, YELLOW, "default", 1, BLACK);
+    FloatInputElement(100, 100, 50, 50, RED, GREEN, YELLOW, 1, BLACK, "Default", "Default", 1);
 }
-FloatInputElement::FloatInputElement(int xpos_, int ypos_,int width_, int height_, uint16_t button_colour_, uint16_t highlight_colour_, uint16_t select_colour_, String button_text_, int text_size_, uint16_t text_colour_ )
+FloatInputElement::FloatInputElement(int xpos_, int ypos_,int width_, int height_, uint16_t button_colour_, uint16_t highlight_colour_, uint16_t select_colour_, int text_size_, uint16_t text_colour_, String float_name_, String float_unit_, float incdec_amount_ )
 {
 
     is_highlighed = false;
@@ -22,6 +22,14 @@ FloatInputElement::FloatInputElement(int xpos_, int ypos_,int width_, int height
     select_colour = select_colour_;
     text_size = text_size_;
     text_colour = text_colour_;
+    float_name = float_name_;
+    float_unit = float_unit_;
+
+    float_val = 0;
+    last_float_val = 0;
+    incdec_amount = incdec_amount_;
+
+    exit_logic_condition = false;
 }
 bool FloatInputElement::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
 {
@@ -32,11 +40,11 @@ bool FloatInputElement::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         screen->fillRect(xpos, ypos, width, height, WHITE);
 
         // Draw select or highlight border first
-        if(is_selected)
+        if( is_highlighed)
         {
             screen->fillRoundRect(xpos, ypos, width, height, CLICKABLE_BUTTON_HIGHLIGHT_WIDTH, select_colour);
         }
-        else if(is_highlighed)
+        else if(is_selected)
         {
             screen->fillRoundRect(xpos, ypos, width, height, CLICKABLE_BUTTON_HIGHLIGHT_WIDTH, highlight_colour);
         }
@@ -114,7 +122,38 @@ bool FloatInputElement::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
 }
 bool FloatInputElement::Update(const InputVector &user_input, uint32_t  dt_ms)
 {
-    // Not applicable to update internal logic states - These are set from outside the object.
+    // If cursor is moved up and down, inc/dec amount
+
+    
+    static unsigned long t_countup = 0;
+
+    // Only update once every max 500 ms
+    t_countup += dt_ms;
+    if( t_countup > 500 )
+    {
+        if (user_input.joystick_y < JOYSTICK_Y_DECREASE_TRIGGER_LIMIT )
+        {   
+            last_float_val = float_val;
+            float_val += incdec_amount;
+            force_redraw = true;
+        }
+        else if (user_input.joystick_y > JOYSTICK_Y_INCREASE_TRIGGER_LIMIT)
+        {
+            last_float_val = float_val;
+            float_val -= incdec_amount;
+            force_redraw = true;
+        }
+
+        t_countup = 0;
+    }
+
+    
+
+    
+
+    // if button confirm is pressed, set exit condition = true
+    if (user_input.button_confirm)
+        exit_logic_condition = true;
 
     return false;
 }
@@ -151,3 +190,14 @@ float FloatInputElement::GetFloatVal()
 {
     return this->float_val;
 }
+
+bool FloatInputElement::GetExitCondition()
+{
+    return exit_logic_condition;
+}
+
+bool FloatInputElement::ResetExitCondition()
+{
+    exit_logic_condition = false;
+}
+

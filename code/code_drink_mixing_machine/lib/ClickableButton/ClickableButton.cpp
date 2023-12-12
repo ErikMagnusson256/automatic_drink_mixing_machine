@@ -33,11 +33,11 @@ bool ClickableButton::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         screen->fillRect(xpos, ypos, width, height, WHITE);
 
         // Draw select or highlight border first
-        if(is_selected)
+        if(is_highlighed)
         {
             screen->fillRoundRect(xpos, ypos, width, height, CLICKABLE_BUTTON_HIGHLIGHT_WIDTH, select_colour);
         }
-        else if(is_highlighed)
+        else if( is_selected)
         {
             screen->fillRoundRect(xpos, ypos, width, height, CLICKABLE_BUTTON_HIGHLIGHT_WIDTH, highlight_colour);
         }
@@ -100,5 +100,11 @@ bool ClickableButton::SetIsHighlighted(bool input)
 bool ClickableButton::SetIsSelected(bool input)
 {
     is_selected = input;
+    force_redraw = true;
+}
+
+void ClickableButton::SetButtonText(String new_button_text)
+{
+    button_text = new_button_text;
     force_redraw = true;
 }
