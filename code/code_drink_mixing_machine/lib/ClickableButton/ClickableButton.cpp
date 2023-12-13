@@ -105,6 +105,10 @@ bool ClickableButton::SetIsSelected(bool input)
 
 void ClickableButton::SetButtonText(String new_button_text)
 {
-    button_text = new_button_text;
-    force_redraw = true;
+    if(new_button_text != button_text)
+    {
+        button_text = new_button_text;
+        force_redraw = true;
+    }
+    
 }

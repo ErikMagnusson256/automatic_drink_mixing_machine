@@ -67,7 +67,13 @@ ClickableButton forcePumpOn_3;
 ClickableButton forcePumpOn_4;
 
 /* Variable input buttons */
-FloatInputElement testFloatInput1;
+FloatInputElement glassSizeFloatInput;
+FloatInputElement loadCellCalPointFloatInput1;
+FloatInputElement loadCellCalPointFloatInput2;
+
+// Use a non clickable button as information display
+ClickableButton displayCurrentLoadCellWeight;
+
 
 bool is_done;
 bool reset_screen_gui;

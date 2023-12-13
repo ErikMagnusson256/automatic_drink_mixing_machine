@@ -79,10 +79,10 @@ bool FloatInputElement::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         #define TEMPICON_SIZE_X 100
         #define TEMPICON_SIZE_Y 85
 
-        // Up triangle
-        int center_x_down = (xpos) + TEMPICON_SIZE_X/4, 
-            center_y_down = ypos + TEMPICON_SIZE_Y*5/7, 
-            triangle_side_length=30;
+        
+        int center_x_down = screen_x_pos - height/2.5f, 
+            center_y_down = ypos + height/2, 
+            triangle_side_length=height/3.0f;
 
         int x0_down = center_x_down,
             y0_down = center_y_down + triangle_side_length*cos(DEG_TO_RAD*30)/2,
@@ -98,8 +98,7 @@ bool FloatInputElement::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
 
         screen->drawTriangle(x0_down, y0_down, x1_down, y1_down, x2_down, y2_down, 0x0);
 
-        // Down triangle
-        int center_x_up = (xpos+TEMPICON_SIZE_X) - TEMPICON_SIZE_X/4, 
+        int center_x_up = screen_x_pos + text_width + height/2.5f, 
             center_y_up = center_y_down;
 
         int x0_up = center_x_up,
