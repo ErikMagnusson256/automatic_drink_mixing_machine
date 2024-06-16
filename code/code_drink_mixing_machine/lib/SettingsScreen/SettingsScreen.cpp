@@ -50,6 +50,31 @@ bool SettingsScreen::Render(MCUFRIEND_kbv *screen, uint32_t dt_ms)
         screen->setTextColor(BLACK);
         screen->println("Loadcell measured weight!");
 
+        // Reset things
+        returnButton.SetIsHighlighted(false);
+        forcePumpOn_1.SetIsHighlighted(false);
+        forcePumpOn_2.SetIsHighlighted(false);
+        forcePumpOn_3.SetIsHighlighted(false);
+        forcePumpOn_4.SetIsHighlighted(false);
+        glassSizeFloatInput.SetIsHighlighted(false);
+        loadCellCalPointFloatInput1.SetIsHighlighted(false);
+        loadCellCalPointFloatInput2.SetIsHighlighted(false);
+        displayCurrentLoadCellWeight.SetIsHighlighted(false);
+
+        returnButton.SetIsSelected(false);
+        forcePumpOn_1.SetIsSelected(false);
+        forcePumpOn_2.SetIsSelected(false);
+        forcePumpOn_3.SetIsSelected(false);
+        forcePumpOn_4.SetIsSelected(false);
+        glassSizeFloatInput.SetIsSelected(false);
+        loadCellCalPointFloatInput1.SetIsSelected(false);
+        loadCellCalPointFloatInput2.SetIsSelected(false);
+        displayCurrentLoadCellWeight.SetIsSelected(false);
+
+        glassSizeFloatInput.ResetExitCondition();
+        loadCellCalPointFloatInput1.ResetExitCondition();
+        loadCellCalPointFloatInput1.ResetExitCondition();
+        
 
         // reset value
         reset_screen_gui = false;
@@ -296,24 +321,7 @@ bool SettingsScreen::Update(const InputVector &user_input, uint32_t  dt_ms)
            
             is_done = true; // exit settings screen!!
             cursor_y_pos = 0;
-            // Reset things
-            returnButton.SetIsHighlighted(false);
-            forcePumpOn_1.SetIsHighlighted(false);
-            forcePumpOn_2.SetIsHighlighted(false);
-            forcePumpOn_3.SetIsHighlighted(false);
-            forcePumpOn_4.SetIsHighlighted(false);
-            glassSizeFloatInput.SetIsHighlighted(false);
-            loadCellCalPointFloatInput1.SetIsHighlighted(false);
-            loadCellCalPointFloatInput2.SetIsHighlighted(false);
-
-            returnButton.SetIsSelected(false);
-            forcePumpOn_1.SetIsSelected(false);
-            forcePumpOn_2.SetIsSelected(false);
-            forcePumpOn_3.SetIsSelected(false);
-            forcePumpOn_4.SetIsSelected(false);
-            glassSizeFloatInput.SetIsSelected(false);
-            loadCellCalPointFloatInput1.SetIsSelected(false);
-            loadCellCalPointFloatInput2.SetIsSelected(false);
+            
 
 
 
