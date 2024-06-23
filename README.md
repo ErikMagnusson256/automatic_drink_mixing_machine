@@ -1,4 +1,4 @@
-# automatic_drink_mixing_machine
+# (Automagic) Drink Mixing Machine
 Repository for an open source drink/cocktail mixing machine. Designed to be 3D printed on a medium form factor 3D printer (220x220x200 build volume).
 
 
@@ -15,7 +15,17 @@ Keywords: Cocktail, Mixing, Machine, Automatic, 3D printed, Drink, Pouring, Ardu
 @todo
 
 # Installation and Setup
+Software is supposed to be run on a Raspberry Pi 5b. Development can be done on a Windows machine which can be pushed to deployment on Raspberry Pi 5b.
+
+## Running on Linux
 @todo
+
+## Development on Windows
+
+Requirements:
+* Python 3.12.4 installed
+
+```Pip```
 
 # BOM
 The Bill Of Materials for this project can be found below. 

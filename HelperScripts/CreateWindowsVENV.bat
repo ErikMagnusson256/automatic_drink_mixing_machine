@@ -1,0 +1,5 @@
+ECHO "Starting setting up venv for development"
+py -3.12 -m venv "SW\DMMvenv"
+source "SW\DMMvenv\bin\activate"
+pip3 install -r ".\SW\requirements.txt"
+ECHO "Finnished setting up venv for development"
