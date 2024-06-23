@@ -1,7 +1,7 @@
 # automatic_drink_mixing_machine
-Repository for an open source drink/cocktail mixing machine. Designed to be mainly 3D printed.
+Repository for an open source drink/cocktail mixing machine. Designed to be 3D printed on a medium form factor 3D printer (220x220x200 build volume).
 
-Software is currently implemented in dm_alpha_sw_01 branch. 
+
 
 <!-- ![image](images/early_render.png) -->
 <img src="Resources/drawings/drawing.png" > 
@@ -9,32 +9,12 @@ Keywords: Cocktail, Mixing, Machine, Automatic, 3D printed, Drink, Pouring, Ardu
 
 
 # Capability and Functionality Walkthrough
-
-<img src="Resources/images/loading_screen.jpg" height="500"> 
-<img src="Resources/images/select_glass_size__.jpg" height="500"> 
-<img src="Resources/images/mainscreen.jpg" height="500"> 
-
-The drinking machine has two startup and loading screens. The user may configure how big the glas he or she has to prevent overfilling. On the third image it shows how the joystick and buttons can be used to define how much liquid from each of the four pumps should be poured.
-
-## Loading and Initialization
-is a startup procedure with a graphical element to it. The user can configure what size of glas they are currently using. It also displays how many glases of drinks have been poured over the machine's lifetime.
-
-## Main Screen
-The main screen is where the user will spend most of his or hers time, it is here where one configures how much liquid will be dispensed from each pump. The GUI can be navigated using the joystick and two buttons.
-
-### Pour Drink
-Opens up a new window where the user will confirm that they want to start dispensing the drink. A progress bar GUI displays how much has been poured of set amounts. The machine will keep track of how many drinks have been poured in the machines lifetime by saving the amount to EEPROM memory.
-
-### Randomize Drink
-This is a party trick! This button randomizes the amount dispensed from each dispenser. 
-
-### Settings
-
-Here one can configure machine settings, such as;
-* glas size
-* loadcell (weight sensor) tuning parameters
+@todo
 
 # Repository Structure
+@todo
+
+# Installation and Setup
 @todo
 
 # BOM
