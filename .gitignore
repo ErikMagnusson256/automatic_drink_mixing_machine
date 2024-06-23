@@ -32,8 +32,8 @@
 *.app
 
 # Environments
-.SW/DMMvenv
-.SW/DMMvenv/*
+SW/DMMvenv
+SW/DMMvenv/
 .venv
-.venv/*
-.ENV/*
+.venv/
+.ENV/
