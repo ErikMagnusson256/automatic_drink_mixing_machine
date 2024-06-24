@@ -7,4 +7,7 @@ The graphics are created using QtDesigner to generate GUI templates, (Done on de
 ## Editing Graphical Elements
 On windows development computer, make sure venv is created and activated.
 
-```qt5-tools designer```
+```pyside6-designer```
+
+Set read write permissions on **all** ui files created
+```chmod +x <name>.ui```
