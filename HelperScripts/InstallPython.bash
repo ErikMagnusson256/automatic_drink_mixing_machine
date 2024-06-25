@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # https://raspberrytips.com/install-latest-python-raspberry-pi/
 # Install python on raspberry pi 5b
 sudo apt update && sudo apt upgrade -y
