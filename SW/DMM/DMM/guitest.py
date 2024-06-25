@@ -19,7 +19,7 @@ from pyside_dynamic import *
 class Screen1(QDialog):
     def __init__(self):
         super(Screen1, self).__init__()
-        loadUi("screen1.ui", self)
+        loadUi("../../../GUI/UI/screen1.ui", self)
 
         self.pushButton.clicked.connect(self.gotoscreen2)
 
@@ -29,7 +29,7 @@ class Screen1(QDialog):
 class Screen2(QDialog):
     def __init__(self):
         super(Screen2, self).__init__()
-        loadUi("screen2.ui", self)
+        loadUi("../../../GUI/UI/screen2.ui", self)
 
         self.pushButton.clicked.connect(self.gotoscreen1)
     
