@@ -1,3 +1,3 @@
 #!/bin/bash
 deactivate
-rm -r "SW\DMMvenv"
+rm -r "SW/DMMvenv"
