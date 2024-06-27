@@ -5,26 +5,13 @@ import signal
 def signal_handler(signal, frame):
         print('You pressed Ctrl+C!')
         sys.exit(0)
+        QApplication.quit()
 
-from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QDialog
-from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtCore import QFile, QIODevice, QTimer,QDateTime
 from PySide6 import QtWidgets
 from PySide6 import QtCore, QtGui, QtUiTools
 from pyside_dynamic import *
-
-def sigint_handler(*args):
-    """Handler for the SIGINT signal."""
-    sys.stderr.write('\r')
-    QApplication.quit()
-
-#def loadUiWidget(uifilename, parent=None):
-#    loader = QtUiTools.QUiLoader()
-#    uifile = QtCore.QFile(uifilename)
-#    uifile.open(QtCore.QFile.ReadOnly)
-#    ui = loader.load(uifile, parent)
-#    uifile.close()
-#    return ui
 
 class Screen1(QDialog):
     def __init__(self):
@@ -34,8 +21,15 @@ class Screen1(QDialog):
 
         self.pushButton.clicked.connect(self.gotoscreen2)
 
+        self.timer=QTimer()
+        self.timer.timeout.connect(self.testloop)
+        self.timer.start(1000)
+    
     def gotoscreen2(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
+    
+    def testloop(self):
+        print("Hello wolrd 1")
         
 class Screen2(QDialog):
     def __init__(self):
@@ -92,3 +86,7 @@ if __name__ == "__main__":
     
     sys.exit(app.exec())
     app.exec_()
+
+
+
+    #{your QPushButton}.clicked.connect(lambda: {your QStackedWidget}.setCurrentIndex({another page}))
