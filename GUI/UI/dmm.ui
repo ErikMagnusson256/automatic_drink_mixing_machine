@@ -1319,7 +1319,7 @@ QStatusBar
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="DrinkConfigPage">
      <widget class="QDoubleSpinBox" name="PumpAmount1">
@@ -1335,14 +1335,9 @@ QStatusBar
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QSpinBox, 
-QDoubleSpinBox,
+       <string notr="true">QDoubleSpinBox
 {
-	background-color: #525251;
-	color: #ffffff;
-	border: 1px solid #rgb(255, 0, 0);
-	border-radius: 3px;
-	padding : 2px;
+	font: bold 
 
 }</string>
       </property>
