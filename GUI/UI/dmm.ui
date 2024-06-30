@@ -32,7 +32,12 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QStackedWidget" name="TopButtonMenu">
