@@ -168,6 +168,12 @@ QSpinBox::up-button{
 {
 	font: bold 
 
+}
+QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
 }</string>
       </property>
       <property name="buttonSymbols">
@@ -203,6 +209,12 @@ QSpinBox::up-button{
 {
 	font: bold 
 
+}
+QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
 }</string>
       </property>
       <property name="buttonSymbols">
@@ -238,6 +250,12 @@ QSpinBox::up-button{
 {
 	font: bold 
 
+}
+QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
 }</string>
       </property>
       <property name="buttonSymbols">
@@ -326,6 +344,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
 {
 	font: bold 
 
+}
+QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
 }</string>
       </property>
       <property name="buttonSymbols">
@@ -361,6 +385,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
 {
 	font: bold 
 
+}
+QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
 }</string>
       </property>
       <property name="buttonSymbols">
@@ -396,6 +426,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
 {
 	font: bold 
 
+}
+QSpinBox::down-button{
+    width: 50
+}
+QSpinBox::up-button{
+    width: 50
 }</string>
       </property>
       <property name="buttonSymbols">
