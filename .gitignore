@@ -37,3 +37,6 @@ SW/DMMvenv/
 .venv
 .venv/
 .ENV/
+
+#python caches
+**/__pycache__

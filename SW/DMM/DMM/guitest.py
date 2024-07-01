@@ -13,6 +13,7 @@ from PySide6 import QtWidgets
 from PySide6 import QtCore, QtGui, QtUiTools
 from pyside_dynamic import *
 
+
 class Screen1(QDialog):
     def __init__(self):
         super(Screen1, self).__init__()
@@ -60,7 +61,26 @@ if __name__ == "__main__":
     #    sys.exit(-1)
     #window.show()
     #sys.exit(app.exec())
+    
+    from HX711 import *
 
+    # create a SimpleHX711 object using GPIO pin 2 as the data pin,
+    # GPIO pin 3 as the clock pin, -370 as the reference unit, and
+    # -367471 as the offset
+    clock_pin = 17
+    dt_pin = 18
+    with SimpleHX711(dt_pin, clock_pin, -370, -367471) as hx:
+
+      # set the scale to output weights in ounces
+      hx.setUnit(Mass.Unit.OZ)
+
+      # zero the scale
+      hx.zero()
+
+      # constantly output weights using the median of 35 samples
+      while True:
+        print(hx.weight(35)) #eg. 1.08 oz
+    
     signal.signal(signal.SIGINT, signal_handler)
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(True)

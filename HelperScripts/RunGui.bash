@@ -1,4 +1,4 @@
 #!/bin/bash
-source source SW/DMMvenv/bin/activate
+source SW/DMMvenv/bin/activate
 export DISPLAY=:0
-sudo python ./SW/DMM/DMM/guitest.py
+sudo ./SW/DMMvenv/bin/python ./SW/DMM/DMM/guitest.py
